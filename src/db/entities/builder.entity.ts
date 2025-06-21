@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CommissionEntity } from './commission.entity';
 import { PropertyEntity } from './property.entity';
 
 export enum BuilderStatusEnum {
@@ -51,4 +52,7 @@ export class BuilderEntity {
 
   @OneToMany(() => PropertyEntity, (property) => property.builder)
   properties: PropertyEntity[];
+
+  @OneToMany(() => CommissionEntity, (commission) => commission.builder)
+  commissions: CommissionEntity[];
 }

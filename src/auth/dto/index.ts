@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { UserRoleEnum } from '../../db/entities/user.entity';
 
-export class CreateUserDto {
+export class RegisterUserDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()

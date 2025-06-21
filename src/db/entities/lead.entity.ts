@@ -12,6 +12,8 @@ import {
 
 import { ClientEntity } from './client.entity';
 import { DealEntity } from './deal.entity';
+import { FollowUpEntity } from './follow-up.entity';
+import { SiteVisitEntity } from './site-visit.entity';
 import { UserEntity } from './user.entity';
 
 export enum LeadSourceEnum {
@@ -82,5 +84,11 @@ export class LeadEntity {
   converted_client: ClientEntity;
 
   @OneToMany(() => DealEntity, (deal) => deal.lead)
-  deals: DealEntity[]; // TODO: remove this
+  deals: DealEntity[];
+
+  @OneToMany(() => SiteVisitEntity, (siteVisit) => siteVisit.lead)
+  site_visits: SiteVisitEntity[];
+
+  @OneToMany(() => FollowUpEntity, (followUp) => followUp.lead)
+  follow_ups: FollowUpEntity[];
 }

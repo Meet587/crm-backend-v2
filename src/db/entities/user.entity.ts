@@ -7,7 +7,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DealEntity } from './deal.entity';
+import { FollowUpEntity } from './follow-up.entity';
 import { LeadEntity } from './lead.entity';
+import { SiteVisitEntity } from './site-visit.entity';
 
 export enum UserRoleEnum {
   ADMIN = 'admin',
@@ -55,4 +57,10 @@ export class UserEntity {
 
   @OneToMany(() => DealEntity, (deal) => deal.agent)
   deals: DealEntity[];
+
+  @OneToMany(() => SiteVisitEntity, (siteVisit) => siteVisit.agent)
+  conducted_site_visits: SiteVisitEntity[];
+
+  @OneToMany(() => FollowUpEntity, (followUp) => followUp.agent)
+  follow_ups: FollowUpEntity[];
 }

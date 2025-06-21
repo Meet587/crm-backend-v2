@@ -11,9 +11,9 @@ import { Repository } from 'typeorm';
 import { AuthConfig } from '../config/interfaces/auth.config';
 import { UserEntity } from '../db/entities/user.entity';
 import {
-  CreateUserDto,
   LoginDto,
   LoginResponseDto,
+  RegisterUserDto,
   UserResponseDto,
 } from './dto';
 import { JwtPayload } from './strategies/jwt-payload.interface';
@@ -27,7 +27,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async register(createUserDto: CreateUserDto): Promise<UserResponseDto> {
+  async register(createUserDto: RegisterUserDto): Promise<UserResponseDto> {
     const existingUser = await this.usersRepository.findOne({
       where: [
         { username: createUserDto.username },

@@ -5,9 +5,12 @@ import { Injectable } from '@nestjs/common';
 import { DbConfig } from '../config/interfaces/db.config';
 import { BuilderEntity } from './entities/builder.entity';
 import { ClientEntity } from './entities/client.entity';
+import { CommissionEntity } from './entities/commission.entity';
 import { DealEntity } from './entities/deal.entity';
+import { FollowUpEntity } from './entities/follow-up.entity';
 import { LeadEntity } from './entities/lead.entity';
 import { PropertyEntity } from './entities/property.entity';
+import { SiteVisitEntity } from './entities/site-visit.entity';
 import { UserEntity } from './entities/user.entity';
 
 @Injectable()
@@ -36,6 +39,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           DealEntity,
           LeadEntity,
           BuilderEntity,
+          SiteVisitEntity,
+          CommissionEntity,
+          FollowUpEntity,
         ],
         logging: false,
         // autoLoadEntities: true,

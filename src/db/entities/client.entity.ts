@@ -9,7 +9,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DealEntity } from './deal.entity';
+import { FollowUpEntity } from './follow-up.entity';
 import { LeadEntity } from './lead.entity';
+import { SiteVisitEntity } from './site-visit.entity';
 
 export enum ClientStatusEnumEnum {
   ACTIVE = 'active',
@@ -74,4 +76,10 @@ export class ClientEntity {
 
   @OneToMany(() => DealEntity, (deal) => deal.client)
   deals: DealEntity[];
+
+  @OneToMany(() => SiteVisitEntity, (siteVisit) => siteVisit.client)
+  site_visits: SiteVisitEntity[];
+
+  @OneToMany(() => FollowUpEntity, (followUp) => followUp.client)
+  follow_ups: FollowUpEntity[];
 }

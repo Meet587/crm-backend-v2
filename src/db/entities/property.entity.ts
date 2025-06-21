@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { BuilderEntity } from './builder.entity';
 import { DealEntity } from './deal.entity';
+import { SiteVisitEntity } from './site-visit.entity';
 
 export enum PropertyTypeEnum {
   APARTMENT = 'apartment',
@@ -33,17 +34,17 @@ export class PropertyEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   address: string;
 
-  @Column()
+  @Column({ nullable: true })
   city: string;
 
-  @Column()
+  @Column({ nullable: true })
   state: string;
 
-  @Column()
-  pincode: string;
+  @Column({ nullable: true })
+  zip_code: string;
 
   @Column({
     type: 'enum',
@@ -58,29 +59,35 @@ export class PropertyEntity {
   })
   status: PropertyStatusEnum;
 
-  @Column({ type: 'decimal', precision: 12, scale: 2 })
+  @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
   price: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ nullable: true })
   bedrooms: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ nullable: true })
   bathrooms: number;
 
-  @Column({ type: 'decimal', precision: 8, scale: 2, nullable: true })
-  area: number;
+  @Column({ nullable: true })
+  square_footage: number;
+
+  @Column({ nullable: true })
+  lot_size: number;
+
+  @Column({ nullable: true })
+  year_built: number;
 
   @Column({ nullable: true })
   description: string;
 
-  @Column('simple-array', { nullable: true })
-  amenities: string[];
+  @Column({ nullable: true })
+  image_url: string;
 
   @ManyToOne(() => BuilderEntity, (builder) => builder.properties)
   @JoinColumn({ name: 'builder_id' })
   builder: BuilderEntity;
 
-  @Column()
+  @Column({ nullable: true })
   builder_id: string;
 
   @CreateDateColumn()
@@ -91,4 +98,7 @@ export class PropertyEntity {
 
   @OneToMany(() => DealEntity, (deal) => deal.property)
   deals: DealEntity[];
+
+  @OneToMany(() => SiteVisitEntity, (siteVisit) => siteVisit.property)
+  site_visits: SiteVisitEntity[];
 }

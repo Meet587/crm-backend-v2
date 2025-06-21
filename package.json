@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:generate": "cross-env NODE_ENV=local npx ts-node ./node_modules/typeorm/cli.js migration:generate src/db/migrations/AutoMigration --dataSource src/db/datasource-options.ts",
     "migration:run": "cross-env NODE_ENV=local npx ts-node ./node_modules/typeorm/cli.js migration:run --dataSource src/db/datasource-options.ts",
-    "migration:revert": "cross-env NODE_ENV=local npx ts-node ./node_modules/typeorm/cli.js migration:revert --dataSource src/db/datasource-options.ts"
+    "migration:revert": "cross-env NODE_ENV=local npx ts-node ./node_modules/typeorm/cli.js migration:revert --dataSource src/db/datasource-options.ts",
+    "seed": "npx ts-node ./src/seeds/run.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^9.8.0",

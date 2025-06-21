@@ -4,10 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ClientEntity } from './client.entity';
+import { CommissionEntity } from './commission.entity';
 import { LeadEntity } from './lead.entity';
 import { PropertyEntity } from './property.entity';
 import { UserEntity } from './user.entity';
@@ -42,9 +44,6 @@ export class DealEntity {
 
   @Column({ type: 'int', default: 0 })
   probability: number;
-
-  @Column({ type: 'decimal', precision: 8, scale: 2, nullable: true })
-  commission: number;
 
   @Column({ type: 'date', nullable: true })
   expected_close_date: Date;
@@ -85,4 +84,7 @@ export class DealEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => CommissionEntity, (commission) => commission.deal)
+  commissions: CommissionEntity[];
 }

@@ -5,9 +5,12 @@ import * as env from '../config/environment.config';
 import { DbConfig } from '../config/interfaces/db.config';
 import { BuilderEntity } from './entities/builder.entity';
 import { ClientEntity } from './entities/client.entity';
+import { CommissionEntity } from './entities/commission.entity';
 import { DealEntity } from './entities/deal.entity';
+import { FollowUpEntity } from './entities/follow-up.entity';
 import { LeadEntity } from './entities/lead.entity';
 import { PropertyEntity } from './entities/property.entity';
+import { SiteVisitEntity } from './entities/site-visit.entity';
 import { UserEntity } from './entities/user.entity';
 
 dotenv.config();
@@ -27,6 +30,9 @@ export const dataSourceOptions: DataSourceOptions = {
     DealEntity,
     LeadEntity,
     BuilderEntity,
+    SiteVisitEntity,
+    CommissionEntity,
+    FollowUpEntity,
   ],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   synchronize: false,

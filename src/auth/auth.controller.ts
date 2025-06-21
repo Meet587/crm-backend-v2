@@ -18,7 +18,7 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import { AuthService } from './auth.service';
 import {
-  CreateUserDto,
+  RegisterUserDto,
   LoginDto,
   LoginResponseDto,
   RefreshTokenDto,
@@ -41,7 +41,7 @@ export class AuthController {
     type: UserResponseDto,
   })
   async register(
-    @Body() createUserDto: CreateUserDto,
+    @Body() createUserDto: RegisterUserDto,
   ): Promise<UserResponseDto> {
     return this.authService.register(createUserDto);
   }

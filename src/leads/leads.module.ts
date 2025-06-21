@@ -1,14 +1,21 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientEntity } from '../db/entities/client.entity';
+import { ClientsModule } from '../clients/clients.module';
 import { LeadEntity } from '../db/entities/lead.entity';
-import { UserEntity } from '../db/entities/user.entity';
+import { LeadRepository } from '../db/repositories/lead.repository';
+import { UsersModule } from '../users/users.module';
 import { LeadsController } from './leads.controller';
 import { LeadsService } from './leads.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LeadEntity, UserEntity, ClientEntity])],
+  imports: [TypeOrmModule.forFeature([LeadEntity]), ClientsModule, UsersModule],
   controllers: [LeadsController],
-  providers: [LeadsService],
+  providers: [
+    LeadsService,
+    {
+      provide: 'leadRepositoryInterface',
+      useClass: LeadRepository,
+    },
+  ],
 })
 export class LeadsModule {}

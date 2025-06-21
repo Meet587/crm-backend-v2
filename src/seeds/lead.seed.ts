@@ -5,9 +5,14 @@ import {
   LeadSourceEnum,
   LeadStatusEnum,
 } from '../db/entities/lead.entity';
+import { UserEntity } from '../db/entities/user.entity';
 
 export const seedLeads = async (dataSource: DataSource) => {
   const leadRepo = dataSource.getRepository(LeadEntity);
+  const userRepo = dataSource.getRepository(UserEntity);
+
+  const users = await userRepo.find();
+  const userIds = users.map((user) => user.id);
 
   const leads = Array.from({ length: 50 }).map(() => {
     const lead = new LeadEntity();
@@ -18,9 +23,7 @@ export const seedLeads = async (dataSource: DataSource) => {
     lead.source = faker.helpers.arrayElement(Object.values(LeadSourceEnum));
     lead.status = faker.helpers.arrayElement(Object.values(LeadStatusEnum));
     lead.notes = faker.lorem.paragraph();
-    // lead.assigned_agent_id = faker.helpers.arrayElement(
-    //   Object.values(UserEntity),
-    // );
+    lead.assigned_agent_id = faker.helpers.arrayElement(userIds);
     return lead;
   });
 
