@@ -5,6 +5,9 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { BuilderModule } from './builder/builder.module';
+import { CityModule } from './city/city.module';
+import { CommissionModule } from './commission/commission.module';
 import environmentConfig from './config/environment.config';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
 import { LeadsModule } from './leads/leads.module';
@@ -26,8 +29,10 @@ import { UsersModule } from './users/users.module';
 
     AuthModule,
     LeadsModule,
-    // CommissionModule,
+    CommissionModule,
     UsersModule,
+    BuilderModule,
+    CityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
