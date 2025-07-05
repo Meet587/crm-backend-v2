@@ -8,7 +8,6 @@ import { AuthModule } from './auth/auth.module';
 import environmentConfig from './config/environment.config';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
 import { LeadsModule } from './leads/leads.module';
-import { CommissionModule } from './commission/commission.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -27,7 +26,7 @@ import { UsersModule } from './users/users.module';
 
     AuthModule,
     LeadsModule,
-    CommissionModule,
+    // CommissionModule,
     UsersModule,
   ],
   controllers: [AppController],

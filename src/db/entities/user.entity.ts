@@ -70,8 +70,4 @@ export class UserEntity {
   // @OneToMany(() => LeadAssignmentHistoryEntity, (assignment) => assignment.assigned_to_user)
   // assignment_history: LeadAssignmentHistoryEntity[];
 
-  // Virtual field for full name
-  get full_name(): string {
-    return `${this.first_name || ''} ${this.last_name || ''}`.trim();
-  }
 }

@@ -68,20 +68,17 @@ export class UserResponseDto {
   created_at: Date;
   @ApiProperty()
   updated_at: Date;
+  @ApiProperty()
+  is_active: boolean;
+  @ApiProperty()
+  access_token: string;
+  @ApiProperty()
+  refresh_token: string;
 }
 
 export class TokenResponseDto {
   @ApiProperty()
   access_token: string;
-}
-
-export class LoginResponseDto {
-  @ApiProperty()
-  accessToken: string;
-  @ApiProperty()
-  refreshToken: string;
-  @ApiProperty({ type: UserResponseDto })
-  user: UserResponseDto;
 }
 
 export class RefreshTokenDto {

@@ -44,7 +44,12 @@ export class CreateLeadDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsUUID()
-  assigned_agent_id?: string;
+  assigned_to?: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsUUID()
+  source_id: string;
 }
 
 export class UpdateLeadDto {

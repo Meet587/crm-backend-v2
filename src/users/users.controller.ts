@@ -1,71 +1,25 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersService } from './users.service';
+import { Controller, Get, UseGuards } from '@nestjs/common/decorators';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CacheControl } from 'src/helpers/cache.decorator';
+import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard';
+import { RolesGuard } from '../auth/strategies/roles.guard';
+import { UserService } from './users.service';
 
-@ApiTags('users')
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@ApiTags('User Management')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, RolesGuard)
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({
-    status: 201,
-    description: 'The user has been successfully created.',
+  @Get('get-all-users')
+  @CacheControl(300)
+  // @Roles(UserRole.ADMIN)
+  @ApiOperation({
+    summary: 'get all user list',
+    operationId: 'getAllUserList',
   })
-  @ApiResponse({ status: 400, description: 'Bad Request.' })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
-  @Get()
-  @ApiOperation({ summary: 'Retrieve all users' })
-  @ApiResponse({ status: 200, description: 'Returns all users.' })
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Retrieve a single user by ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns the user with the specified ID.',
-  })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
-  }
-
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update an existing user' })
-  @ApiResponse({
-    status: 200,
-    description: 'The user has been successfully updated.',
-  })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiResponse({ status: 400, description: 'Bad Request.' })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete a user by ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'The user has been successfully deleted.',
-  })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async getAllUsers() {
+    return await this.userService.getAllUsers();
   }
 }

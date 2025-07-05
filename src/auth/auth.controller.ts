@@ -1,26 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { UserRoleEnum } from '../db/entities/user.entity';
-import { Roles } from '../decorators/roles.decorator';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { RolesGuard } from '../guards/roles.guard';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import {
-  RegisterUserDto,
   LoginDto,
-  LoginResponseDto,
   RefreshTokenDto,
   TokenResponseDto,
   UserResponseDto,
@@ -32,8 +15,6 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRoleEnum.ADMIN)
   @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({
     status: 201,
@@ -41,7 +22,7 @@ export class AuthController {
     type: UserResponseDto,
   })
   async register(
-    @Body() createUserDto: RegisterUserDto,
+    @Body() createUserDto: CreateUserDto,
   ): Promise<UserResponseDto> {
     return this.authService.register(createUserDto);
   }
@@ -51,23 +32,10 @@ export class AuthController {
   @ApiResponse({
     status: 200,
     description: 'User logged in successfully',
-    type: LoginResponseDto,
-  })
-  async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
-    return this.authService.login(loginDto);
-  }
-
-  @ApiBearerAuth()
-  @Get('profile')
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Get user profile' })
-  @ApiResponse({
-    status: 200,
-    description: 'User profile retrieved successfully',
     type: UserResponseDto,
   })
-  async getProfile(@Request() req): Promise<UserResponseDto> {
-    return this.authService.getProfile(req.user);
+  async login(@Body() loginDto: LoginDto): Promise<UserResponseDto> {
+    return this.authService.login(loginDto);
   }
 
   @Post('refresh')
