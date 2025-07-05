@@ -3,14 +3,16 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 import { Injectable } from '@nestjs/common';
 import { DbConfig } from '../config/interfaces/db.config';
+import { BuilderContactEntity } from './entities/builder-contact.entity';
 import { BuilderEntity } from './entities/builder.entity';
-import { ClientEntity } from './entities/client.entity';
+import { CityEntity } from './entities/city.entity';
 import { CommissionEntity } from './entities/commission.entity';
 import { DealEntity } from './entities/deal.entity';
-import { FollowUpEntity } from './entities/follow-up.entity';
+import { LeadActivityEntity } from './entities/lead-activity.entity';
+import { LeadSourceEntity } from './entities/lead-source.entity';
 import { LeadEntity } from './entities/lead.entity';
+import { ProjectEntity } from './entities/project.entity';
 import { PropertyEntity } from './entities/property.entity';
-import { SiteVisitEntity } from './entities/site-visit.entity';
 import { UserEntity } from './entities/user.entity';
 
 @Injectable()
@@ -35,17 +37,19 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         entities: [
           UserEntity,
           PropertyEntity,
-          ClientEntity,
+          ProjectEntity,
+          BuilderEntity,
+          BuilderContactEntity,
+          CityEntity,
+          CommissionEntity,
           DealEntity,
           LeadEntity,
-          BuilderEntity,
-          SiteVisitEntity,
-          CommissionEntity,
-          FollowUpEntity,
+          LeadSourceEntity,
+          LeadActivityEntity,
         ],
         logging: false,
-        // autoLoadEntities: true,
-        // synchronize: true,
+        autoLoadEntities: true,
+        synchronize: true,
         migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       } as TypeOrmModuleOptions;
     } catch (error) {

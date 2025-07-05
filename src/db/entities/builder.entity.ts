@@ -2,12 +2,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { BuilderContactEntity } from './builder-contact.entity';
+import { CityEntity } from './city.entity';
 import { CommissionEntity } from './commission.entity';
-import { PropertyEntity } from './property.entity';
+import { ProjectEntity } from './project.entity';
 
 export enum BuilderStatusEnum {
   ACTIVE = 'active',
@@ -19,23 +25,26 @@ export class BuilderEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
 
-  @Column({ nullable: true })
-  contact_person: string;
-
-  @Column({ nullable: true })
-  email: string;
-
-  @Column({ nullable: true })
-  phone: string;
-
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   address: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'uuid', nullable: true })
+  city_id: string;
+
+  @Column({ type: 'varchar', length: 15, nullable: true })
+  phone: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  email: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
   website: string;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
+  commission_rate: number;
 
   @Column({
     type: 'enum',
@@ -50,8 +59,24 @@ export class BuilderEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => PropertyEntity, (property) => property.builder)
-  properties: PropertyEntity[];
+  // Relationships
+  @ManyToOne(() => CityEntity, { nullable: true })
+  @JoinColumn({ name: 'city_id' })
+  city: CityEntity;
+
+  @ManyToMany(() => CityEntity, (city) => city.builders)
+  @JoinTable({
+    name: 'builder_operating_cities',
+    joinColumn: { name: 'builder_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'city_id', referencedColumnName: 'id' },
+  })
+  operating_cities: CityEntity[];
+
+  @OneToMany(() => BuilderContactEntity, (contact) => contact.builder)
+  contact_persons: BuilderContactEntity[];
+
+  @OneToMany(() => ProjectEntity, (project) => project.builder)
+  projects: ProjectEntity[];
 
   @OneToMany(() => CommissionEntity, (commission) => commission.builder)
   commissions: CommissionEntity[];

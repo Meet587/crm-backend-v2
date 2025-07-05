@@ -3,10 +3,6 @@ import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { UserRoleEnum } from '../../db/entities/user.entity';
 
 export class CreateUserDto {
-  @ApiProperty({ description: 'The username of the user', uniqueItems: true })
-  @IsString()
-  username: string;
-
   @ApiProperty({
     description: 'The email address of the user',
     uniqueItems: true,

@@ -29,13 +29,10 @@ export class AuthService {
 
   async register(createUserDto: RegisterUserDto): Promise<UserResponseDto> {
     const existingUser = await this.usersRepository.findOne({
-      where: [
-        { username: createUserDto.username },
-        { email: createUserDto.email },
-      ],
+      where: [{ email: createUserDto.email }],
     });
     if (existingUser) {
-      throw new BadRequestException('Username or email already exists');
+      throw new BadRequestException('Email already exists');
     }
     const password_hash = await bcrypt.hash(createUserDto.password, 10);
     const newUser = this.usersRepository.create({
@@ -48,7 +45,7 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
     const user = await this.usersRepository.findOne({
-      where: { username: loginDto.username },
+      where: { email: loginDto.email },
     });
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
@@ -61,7 +58,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
     const payload = {
-      username: user.username,
+      email: user.email,
       sub: user.id,
       role: user.role,
     } as JwtPayload;
@@ -94,7 +91,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid refresh token');
       }
       const newAccessToken = this.jwtService.sign({
-        username: user.username,
+        email: user.email,
         sub: user.id,
         role: user.role,
       });
@@ -107,7 +104,6 @@ export class AuthService {
   private mapUserToResponseDto(user: UserEntity): UserResponseDto {
     const userResponseDto = new UserResponseDto();
     userResponseDto.id = user.id;
-    userResponseDto.username = user.username;
     userResponseDto.email = user.email;
     userResponseDto.role = user.role;
     userResponseDto.first_name = user.first_name;

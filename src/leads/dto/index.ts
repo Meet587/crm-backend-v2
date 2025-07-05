@@ -9,8 +9,7 @@ import {
   IsUUID,
   Min,
 } from 'class-validator';
-import { ClientStatusEnumEnum } from '../../db/entities/client.entity';
-import { LeadSourceEnum, LeadStatusEnum } from '../../db/entities/lead.entity';
+import { LeadStatusEnum } from '../../db/entities/lead.entity';
 
 export class CreateLeadDto {
   @ApiProperty()
@@ -31,11 +30,6 @@ export class CreateLeadDto {
   @IsString()
   @IsNotEmpty()
   phone: string;
-
-  @ApiProperty({ enum: LeadSourceEnum, required: false })
-  @IsOptional()
-  @IsEnum(LeadSourceEnum)
-  source?: LeadSourceEnum;
 
   @ApiProperty({ enum: LeadStatusEnum, required: false })
   @IsOptional()
@@ -77,11 +71,6 @@ export class UpdateLeadDto {
   @IsNotEmpty()
   phone?: string;
 
-  @ApiProperty({ enum: LeadSourceEnum, required: false })
-  @IsOptional()
-  @IsEnum(LeadSourceEnum)
-  source?: LeadSourceEnum;
-
   @ApiProperty({ enum: LeadStatusEnum, required: false })
   @IsOptional()
   @IsEnum(LeadStatusEnum)
@@ -103,11 +92,6 @@ export class FindLeadsDto {
   @IsOptional()
   @IsString()
   search?: string;
-
-  @ApiProperty({ enum: LeadSourceEnum, required: false })
-  @IsOptional()
-  @IsEnum(LeadSourceEnum)
-  source?: LeadSourceEnum;
 
   @ApiProperty({ enum: LeadStatusEnum, required: false })
   @IsOptional()
@@ -147,9 +131,6 @@ export class LeadResponseDto {
 
   @ApiProperty()
   phone: string;
-
-  @ApiProperty({ enum: LeadSourceEnum })
-  source: LeadSourceEnum;
 
   @ApiProperty({ enum: LeadStatusEnum })
   status: LeadStatusEnum;
@@ -227,11 +208,6 @@ export class ConvertLeadDto {
   @IsString()
   preferred_location?: string;
 
-  @ApiProperty({ enum: ClientStatusEnumEnum, required: false })
-  @IsOptional()
-  @IsEnum(ClientStatusEnumEnum)
-  status?: ClientStatusEnumEnum;
-
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
@@ -282,9 +258,6 @@ export class ClientResponseDto {
 
   @ApiProperty({ required: false })
   preferred_location?: string;
-
-  @ApiProperty({ enum: ClientStatusEnumEnum })
-  status: ClientStatusEnumEnum;
 
   @ApiProperty({ required: false })
   notes?: string;

@@ -4,13 +4,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { ClientsService } from '../clients/clients.service';
-import { ClientEntity } from '../db/entities/client.entity';
-import { LeadEntity, LeadStatusEnum } from '../db/entities/lead.entity';
+import { LeadEntity } from '../db/entities/lead.entity';
 import { LeadRepositoryInterface } from '../db/interfaces/lead.interface';
 import { UsersService } from '../users/users.service';
 import {
-  ConvertLeadDto,
   CreateLeadDto,
   FindLeadsDto,
   PaginatedResponseDto,
@@ -23,7 +20,6 @@ export class LeadsService {
     @Inject('leadRepositoryInterface')
     private readonly leadRepository: LeadRepositoryInterface,
     private readonly usersService: UsersService,
-    private readonly clientsService: ClientsService,
   ) {}
 
   async findAll(
@@ -31,7 +27,6 @@ export class LeadsService {
   ): Promise<PaginatedResponseDto<LeadEntity>> {
     const {
       search,
-      source,
       status,
       assigned_agent_id,
       page = 1,
@@ -81,7 +76,7 @@ export class LeadsService {
   async findOne(id: string): Promise<LeadEntity> {
     const lead = await this.leadRepository.findByCondition({
       where: { id },
-      relations: ['assigned_agent'],
+      relations: ['assigned_to_user'],
     });
     if (!lead) {
       throw new NotFoundException(`Lead with ID ${id} not found`);
@@ -140,39 +135,6 @@ export class LeadsService {
     return;
   }
 
-  async convertToClient(
-    id: string,
-    convertLeadDto: ConvertLeadDto,
-  ): Promise<ClientEntity> {
-    const lead = await this.leadRepository.findByCondition({
-      where: { id },
-    });
-    if (!lead) {
-      throw new NotFoundException(`Lead with ID ${id} not found`);
-    }
-
-    if (lead.status === LeadStatusEnum.CONVERTED) {
-      throw new BadRequestException(
-        `Lead with ID ${id} has already been converted to a client`,
-      );
-    }
-
-    const client = await this.clientsService.create({
-      ...convertLeadDto,
-      first_name: convertLeadDto.first_name || lead.first_name,
-      last_name: convertLeadDto.last_name || lead.last_name,
-      email: convertLeadDto.email || lead.email,
-      phone: convertLeadDto.phone || lead.phone,
-      original_lead_id: lead.id,
-    });
-
-    lead.status = LeadStatusEnum.CONVERTED;
-    lead.converted_client = client;
-    await this.leadRepository.save(lead);
-
-    return client;
-  }
-
   async assignToAgent(leadId: string, agentId: string): Promise<LeadEntity> {
     const lead = await this.leadRepository.findByCondition({
       where: { id: leadId },
@@ -186,8 +148,7 @@ export class LeadsService {
       throw new NotFoundException(`Agent with ID ${agentId} not found`);
     }
 
-    lead.assigned_agent = agent;
-    lead.assigned_agent_id = agent.id;
+    lead.assigned_to = agent.id;
     return this.leadRepository.save(lead);
   }
 }

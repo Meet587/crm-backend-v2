@@ -7,12 +7,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DealEntity } from './deal.entity';
-import { FollowUpEntity } from './follow-up.entity';
+import { LeadActivityEntity } from './lead-activity.entity';
 import { LeadEntity } from './lead.entity';
-import { SiteVisitEntity } from './site-visit.entity';
 
 export enum UserRoleEnum {
   ADMIN = 'admin',
+  RM = 'rm',
+  BACK_OFFICE = 'back_office',
   AGENT = 'agent',
 }
 
@@ -21,30 +22,33 @@ export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
-  username: string;
-
-  @Column({ unique: true })
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   password_hash: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  first_name: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  last_name: string;
+
+  @Column({ type: 'varchar', length: 15, nullable: true })
+  phone: string;
 
   @Column({
     type: 'enum',
     enum: UserRoleEnum,
-    default: UserRoleEnum.AGENT,
+    default: UserRoleEnum.BACK_OFFICE,
   })
   role: UserRoleEnum;
 
-  @Column({ nullable: true })
-  first_name: string;
+  @Column({ type: 'boolean', default: true })
+  is_active: boolean;
 
-  @Column({ nullable: true })
-  last_name: string;
-
-  @Column({ nullable: true })
-  phone: string;
+  @Column({ type: 'timestamp', nullable: true })
+  last_login: Date;
 
   @CreateDateColumn()
   created_at: Date;
@@ -52,15 +56,22 @@ export class UserEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => LeadEntity, (lead) => lead.assigned_agent)
+  // Relationships
+  @OneToMany(() => LeadEntity, (lead) => lead.assigned_to)
   assigned_leads: LeadEntity[];
 
-  @OneToMany(() => DealEntity, (deal) => deal.agent)
+  @OneToMany(() => LeadActivityEntity, (activity) => activity.created_by)
+  lead_activities: LeadActivityEntity[];
+
+  @OneToMany(() => DealEntity, (deal) => deal.rm)
   deals: DealEntity[];
 
-  @OneToMany(() => SiteVisitEntity, (siteVisit) => siteVisit.agent)
-  conducted_site_visits: SiteVisitEntity[];
+  // TODO: Uncomment this when we have a way to store the assignment history
+  // @OneToMany(() => LeadAssignmentHistoryEntity, (assignment) => assignment.assigned_to_user)
+  // assignment_history: LeadAssignmentHistoryEntity[];
 
-  @OneToMany(() => FollowUpEntity, (followUp) => followUp.agent)
-  follow_ups: FollowUpEntity[];
+  // Virtual field for full name
+  get full_name(): string {
+    return `${this.first_name || ''} ${this.last_name || ''}`.trim();
+  }
 }

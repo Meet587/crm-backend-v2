@@ -14,4 +14,9 @@ export class UserRepository
   ) {
     super(usersRepository);
   }
+  async findByEmail(email: string): Promise<UserEntity | null> {
+    return await this.findByCondition({
+      where: { email: email },
+    });
+  }
 }

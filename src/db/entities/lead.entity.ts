@@ -2,59 +2,62 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { ClientEntity } from './client.entity';
 import { DealEntity } from './deal.entity';
-import { FollowUpEntity } from './follow-up.entity';
-import { SiteVisitEntity } from './site-visit.entity';
+import { LeadActivityEntity } from './lead-activity.entity';
+import { LeadSourceEntity } from './lead-source.entity';
+import { PropertyEntity } from './property.entity';
 import { UserEntity } from './user.entity';
-
-export enum LeadSourceEnum {
-  WEBSITE = 'website',
-  REFERRAL = 'referral',
-  SOCIAL_MEDIA = 'social_media',
-  COLD_CALL = 'cold_call',
-  WALK_IN = 'walk_in',
-}
 
 export enum LeadStatusEnum {
   NEW = 'new',
   CONTACTED = 'contacted',
   QUALIFIED = 'qualified',
-  CONVERTED = 'converted',
-  LOST = 'lost',
+  SITE_VISIT_SCHEDULED = 'site_visit_scheduled',
+  SITE_VISIT_DONE = 'site_visit_done',
+  NEGOTIATION = 'negotiation',
+  PAPERWORK = 'paperwork',
+  DEAL_CLOSED = 'deal_closed',
+  DEAL_LOST = 'deal_lost',
 }
 
 @Entity('leads')
+@Index(['phone'])
+@Index(['status'])
+@Index(['assigned_to'])
 export class LeadEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid', nullable: false })
+  source_id: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: false })
   first_name: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100, nullable: true })
   last_name: string;
 
-  @Column({ unique: true })
-  email: string;
-
-  @Column()
+  @Column({ type: 'varchar', length: 15, nullable: false })
   phone: string;
 
-  @Column({
-    type: 'enum',
-    enum: LeadSourceEnum,
-    default: LeadSourceEnum.WEBSITE,
-  })
-  source: LeadSourceEnum;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  email: string;
+
+  @Column({ type: 'uuid', nullable: true })
+  interested_property_id: string;
+
+  @Column({ type: 'decimal', precision: 15, scale: 2, nullable: true })
+  budget_min: number;
+
+  @Column({ type: 'decimal', precision: 15, scale: 2, nullable: true })
+  budget_max: number;
 
   @Column({
     type: 'enum',
@@ -63,15 +66,8 @@ export class LeadEntity {
   })
   status: LeadStatusEnum;
 
-  @Column({ nullable: true })
-  notes: string;
-
-  @ManyToOne(() => UserEntity, (user) => user.assigned_leads)
-  @JoinColumn({ name: 'assigned_agent_id' })
-  assigned_agent: UserEntity;
-
-  @Column({ nullable: true })
-  assigned_agent_id: string;
+  @Column({ type: 'uuid', nullable: true })
+  assigned_to: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -79,16 +75,39 @@ export class LeadEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToOne(() => ClientEntity, (client) => client.original_lead)
-  // @JoinColumn({ name: 'originalClientId' })
-  converted_client: ClientEntity;
+  // Relationships
+  @ManyToOne(() => LeadSourceEntity, (source) => source.leads, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'source_id' })
+  source: LeadSourceEntity;
+
+  @ManyToOne(() => PropertyEntity, (property) => property.leads, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'interested_property_id' })
+  interested_property: PropertyEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.assigned_leads, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'assigned_to' })
+  assigned_to_user: UserEntity;
+
+  @OneToMany(() => LeadActivityEntity, (activity) => activity.lead)
+  activities: LeadActivityEntity[];
 
   @OneToMany(() => DealEntity, (deal) => deal.lead)
   deals: DealEntity[];
 
-  @OneToMany(() => SiteVisitEntity, (siteVisit) => siteVisit.lead)
-  site_visits: SiteVisitEntity[];
+  // @OneToMany(() => LeadAssignmentHistoryEntity, (assignment) => assignment.lead)
+  // assignment_history: LeadAssignmentHistoryEntity[];
 
-  @OneToMany(() => FollowUpEntity, (followUp) => followUp.lead)
-  follow_ups: FollowUpEntity[];
+  // @OneToMany(() => LeadStatusHistoryEntity, (status) => status.lead)
+  // status_history: LeadStatusHistoryEntity[];
+
+  // Virtual field for full name
+  get full_name(): string {
+    return `${this.first_name || ''} ${this.last_name || ''}`.trim();
+  }
 }

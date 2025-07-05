@@ -1,89 +1,97 @@
 import {
+  Entity,
+  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  Entity,
-  JoinColumn,
+  UpdateDateColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  JoinColumn,
+  Index,
 } from 'typeorm';
-import { ClientEntity } from './client.entity';
-import { CommissionEntity } from './commission.entity';
 import { LeadEntity } from './lead.entity';
 import { PropertyEntity } from './property.entity';
 import { UserEntity } from './user.entity';
+import { CommissionEntity } from './commission.entity';
 
-export enum DealStageEnum {
-  INITIAL_CONTACT = 'initial_contact',
-  NEEDS_ANALYSIS = 'needs_analysis',
-  PROPOSAL = 'proposal',
-  NEGOTIATION = 'negotiation',
-  CONTRACT = 'contract',
-  CLOSED_WON = 'closed_won',
-  CLOSED_LOST = 'closed_lost',
+export enum DealStatusEnum {
+  PENDING = 'pending',
+  CONFIRMED = 'confirmed',
+  CANCELLED = 'cancelled',
 }
 
 @Entity('deals')
+@Index(['rm_id'])
+@Index(['status'])
+@Index(['deal_date'])
 export class DealEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  title: string;
+  @Column({ type: 'uuid', nullable: false })
+  lead_id: string;
 
-  @Column({ type: 'decimal', precision: 12, scale: 2 })
-  value: number;
+  @Column({ type: 'uuid', nullable: false })
+  property_id: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  client_name: string;
+
+  @Column({ type: 'varchar', length: 15, nullable: true })
+  client_phone: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  client_email: string;
+
+  @Column({ type: 'decimal', precision: 15, scale: 2, nullable: false })
+  deal_amount: number;
+
+  @Column({ type: 'decimal', precision: 15, scale: 2, nullable: true })
+  commission_amount: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  commission_percentage: number;
+
+  @Column({ type: 'date', nullable: false })
+  deal_date: Date;
+
+  @Column({ type: 'date', nullable: true })
+  possession_date: Date;
 
   @Column({
     type: 'enum',
-    enum: DealStageEnum,
-    default: DealStageEnum.INITIAL_CONTACT,
+    enum: DealStatusEnum,
+    default: DealStatusEnum.PENDING,
   })
-  stage: DealStageEnum;
+  status: DealStatusEnum;
 
-  @Column({ type: 'int', default: 0 })
-  probability: number;
-
-  @Column({ type: 'date', nullable: true })
-  expected_close_date: Date;
-
-  @Column({ nullable: true })
-  notes: string;
-
-  @ManyToOne(() => LeadEntity, (lead) => lead.deals, { nullable: true })
-  @JoinColumn({ name: 'lead_id' })
-  lead: LeadEntity;
-
-  @Column({ nullable: true })
-  lead_id: string;
-
-  @ManyToOne(() => ClientEntity, (client) => client.deals, { nullable: true })
-  @JoinColumn({ name: 'client_id' })
-  client: ClientEntity;
-
-  @Column({ nullable: true })
-  client_id: string;
-
-  @ManyToOne(() => PropertyEntity, (property) => property.deals)
-  @JoinColumn({ name: 'property_id' })
-  property: PropertyEntity;
-
-  @Column()
-  property_id: string;
-
-  @ManyToOne(() => UserEntity, (user) => user.deals)
-  @JoinColumn({ name: 'agent_id' })
-  agent: UserEntity;
-
-  @Column()
-  agent_id: string;
+  @Column({ type: 'uuid', nullable: false })
+  rm_id: string;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  // Relationships
+  @ManyToOne(() => LeadEntity, (lead) => lead.deals, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'lead_id' })
+  lead: LeadEntity;
+
+  @ManyToOne(() => PropertyEntity, (property) => property.deals, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'property_id' })
+  property: PropertyEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.deals, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'rm_id' })
+  rm: UserEntity;
 
   @OneToMany(() => CommissionEntity, (commission) => commission.deal)
   commissions: CommissionEntity[];

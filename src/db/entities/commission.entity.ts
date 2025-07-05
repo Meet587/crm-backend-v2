@@ -1,46 +1,41 @@
 import {
+  Entity,
+  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  Index,
 } from 'typeorm';
-import { BuilderEntity } from './builder.entity';
 import { DealEntity } from './deal.entity';
+import { BuilderEntity } from './builder.entity';
 
 export enum CommissionStatusEnum {
   PENDING = 'pending',
-  PAID = 'paid',
-  OVERDUE = 'overdue',
-  DISPUTED = 'disputed',
+  RECEIVED = 'received',
+  CANCELLED = 'cancelled',
 }
 
 @Entity('commissions')
+@Index(['builder_id'])
+@Index(['status'])
+@Index(['expected_date'])
 export class CommissionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => DealEntity, (deal) => deal.commissions)
-  @JoinColumn({ name: 'deal_id' })
-  deal: DealEntity;
-
-  @Column()
+  @Column({ type: 'uuid', nullable: false })
   deal_id: string;
 
-  @ManyToOne(() => BuilderEntity, (builder) => builder.commissions)
-  @JoinColumn({ name: 'builder_id' })
-  builder: BuilderEntity;
-
-  @Column()
+  @Column({ type: 'uuid', nullable: false })
   builder_id: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 15, scale: 2, nullable: false })
   amount: number;
 
-  @Column({ type: 'decimal', precision: 5, scale: 2 })
-  rate: number; // Commission rate percentage
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  percentage: number;
 
   @Column({
     type: 'enum',
@@ -50,15 +45,12 @@ export class CommissionEntity {
   status: CommissionStatusEnum;
 
   @Column({ type: 'date', nullable: true })
-  due_date: Date;
+  expected_date: Date;
 
   @Column({ type: 'date', nullable: true })
-  paid_date: Date;
+  received_date: Date;
 
-  @Column({ nullable: true })
-  invoice_number: string;
-
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   notes: string;
 
   @CreateDateColumn()
@@ -66,4 +58,17 @@ export class CommissionEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  // Relationships
+  @ManyToOne(() => DealEntity, (deal) => deal.commissions, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'deal_id' })
+  deal: DealEntity;
+
+  @ManyToOne(() => BuilderEntity, (builder) => builder.commissions, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'builder_id' })
+  builder: BuilderEntity;
 }

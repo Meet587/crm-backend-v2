@@ -10,9 +10,6 @@ import { TypeOrmConfigService } from './db/typeorm-config.service';
 import { LeadsModule } from './leads/leads.module';
 import { CommissionModule } from './commission/commission.module';
 import { UsersModule } from './users/users.module';
-import { ClientsModule } from './clients/clients.module';
-import { FollowUpModule } from './follow-up/follow-up.module';
-import { SiteVisitModule } from './site-visit/site-visit.module';
 
 @Module({
   imports: [
@@ -32,9 +29,6 @@ import { SiteVisitModule } from './site-visit/site-visit.module';
     LeadsModule,
     CommissionModule,
     UsersModule,
-    ClientsModule,
-    FollowUpModule,
-    SiteVisitModule,
   ],
   controllers: [AppController],
   providers: [AppService],

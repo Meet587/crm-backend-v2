@@ -11,11 +11,6 @@ import { UserRoleEnum } from '../../db/entities/user.entity';
 
 export class RegisterUserDto {
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  username: string;
-
-  @ApiProperty()
   @IsEmail()
   email: string;
 
@@ -48,7 +43,7 @@ export class LoginDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  username: string;
+  email: string;
 
   @ApiProperty()
   @IsString()
@@ -59,8 +54,6 @@ export class LoginDto {
 export class UserResponseDto {
   @ApiProperty()
   id: string;
-  @ApiProperty()
-  username: string;
   @ApiProperty()
   email: string;
   @ApiProperty({ enum: UserRoleEnum })

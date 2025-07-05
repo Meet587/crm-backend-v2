@@ -20,8 +20,6 @@ import { Roles } from '../decorators/roles.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import {
-  ClientResponseDto,
-  ConvertLeadDto,
   CreateLeadDto,
   FindLeadsDto,
   LeadResponseDto,
@@ -96,20 +94,5 @@ export class LeadsController {
   @ApiResponse({ status: 404, description: 'Lead not found' })
   async remove(@Param('id') id: string): Promise<void> {
     return this.leadsService.remove(id);
-  }
-
-  @Post(':id/convert')
-  @ApiOperation({ summary: 'Convert a lead to a client' })
-  @ApiResponse({
-    status: 200,
-    description: 'Lead converted to client successfully',
-    type: ClientResponseDto,
-  })
-  @ApiResponse({ status: 404, description: 'Lead not found' })
-  async convertToClient(
-    @Param('id') id: string,
-    @Body() convertLeadDto: ConvertLeadDto,
-  ): Promise<ClientResponseDto> {
-    return this.leadsService.convertToClient(id, convertLeadDto);
   }
 }
