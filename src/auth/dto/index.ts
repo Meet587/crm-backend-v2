@@ -41,7 +41,7 @@ export class RegisterUserDto {
 
 export class LoginDto {
   @ApiProperty()
-  @IsString()
+  @IsEmail()
   @IsNotEmpty()
   email: string;
 

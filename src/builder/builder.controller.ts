@@ -28,9 +28,9 @@ export class BuilderController {
   @ApiResponse({ status: 200, description: 'Builder retrieved successfully' })
   async getBuilderById(
     @Param('id', ParseUUIDPipe) id: string,
-    @Query('fetchContactPersons') fetchContactPersons: boolean = false,
+    @Query('include_contact_persons') include_contact_persons: boolean = false,
   ) {
-    return this.builderService.getBuilderById(id, fetchContactPersons);
+    return this.builderService.getBuilderById(id, include_contact_persons);
   }
 
   @Get()

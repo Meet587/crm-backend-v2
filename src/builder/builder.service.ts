@@ -27,12 +27,12 @@ export class BuilderService {
 
   async getBuilderById(
     id: string,
-    fetchContactPersons: boolean = false,
+    include_contact_persons: boolean = false,
   ): Promise<BuilderEntity> {
     try {
       const builder = await this.builderRepository.findByCondition({
         where: { id },
-        relations: { contact_persons: fetchContactPersons },
+        relations: { contact_persons: include_contact_persons },
       });
       if (!builder) {
         throw new NotFoundException('Builder not found');
