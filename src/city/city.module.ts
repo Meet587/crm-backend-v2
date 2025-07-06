@@ -15,5 +15,6 @@ import { CityService } from './city.service';
       useClass: CityRepository,
     },
   ],
+  exports: [CityService],
 })
 export class CityModule {}

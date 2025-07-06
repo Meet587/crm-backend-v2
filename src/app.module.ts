@@ -10,7 +10,10 @@ import { CityModule } from './city/city.module';
 import { CommissionModule } from './commission/commission.module';
 import environmentConfig from './config/environment.config';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
+import { DealModule } from './deal/deal.module';
 import { LeadsModule } from './leads/leads.module';
+import { ProjectManagementModule } from './project-management/project-management.module';
+import { PropertyManagementModule } from './propert-management/property-management.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -33,6 +36,9 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     BuilderModule,
     CityModule,
+    ProjectManagementModule,
+    PropertyManagementModule,
+    DealModule,
   ],
   controllers: [AppController],
   providers: [AppService],

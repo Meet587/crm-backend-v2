@@ -111,12 +111,7 @@ export class LeadsService {
 
   async update(id: string, updateLeadDto: UpdateLeadDto): Promise<LeadEntity> {
     try {
-      const lead = await this.leadRepository.findByCondition({
-        where: { id },
-      });
-      if (!lead) {
-        throw new NotFoundException(`Lead with ID ${id} not found`);
-      }
+      const lead = await this.findOne(id);
 
       if (updateLeadDto.assigned_agent_id) {
         const agent = await this.usersService.findById(
@@ -139,12 +134,7 @@ export class LeadsService {
 
   async remove(id: string): Promise<void> {
     try {
-      const lead = await this.leadRepository.findByCondition({
-        where: { id },
-      });
-      if (!lead) {
-        throw new NotFoundException(`Lead with ID ${id} not found`);
-      }
+      const lead = await this.findOne(id);
       await this.leadRepository.remove(lead);
       return;
     } catch (error) {
@@ -154,17 +144,9 @@ export class LeadsService {
 
   async assignToAgent(leadId: string, agentId: string): Promise<LeadEntity> {
     try {
-      const lead = await this.leadRepository.findByCondition({
-        where: { id: leadId },
-      });
-      if (!lead) {
-        throw new NotFoundException(`Lead with ID ${leadId} not found`);
-      }
+      const lead = await this.findOne(leadId);
 
       const agent = await this.usersService.findById(agentId);
-      if (!agent) {
-        throw new NotFoundException(`Agent with ID ${agentId} not found`);
-      }
 
       lead.assigned_to_user = agent;
       return this.leadRepository.save(lead);

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -42,7 +43,7 @@ export class CommissionController {
     description: 'Returns the commission record with the specified ID.',
   })
   @ApiResponse({ status: 404, description: 'Commission record not found.' })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.commissionService.findOne(+id);
   }
 
@@ -55,7 +56,7 @@ export class CommissionController {
   @ApiResponse({ status: 404, description: 'Commission record not found.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateCommissionDto: UpdateCommissionDto,
   ) {
     return this.commissionService.update(+id, updateCommissionDto);
@@ -68,7 +69,7 @@ export class CommissionController {
     description: 'The commission record has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Commission record not found.' })
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.commissionService.remove(+id);
   }
 }

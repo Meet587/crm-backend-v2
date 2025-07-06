@@ -21,5 +21,6 @@ import { BuilderService } from './builder.service';
       useClass: BuilderContactRepository,
     },
   ],
+  exports: [BuilderService],
 })
 export class BuilderModule {}

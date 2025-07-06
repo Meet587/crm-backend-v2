@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { BuilderService } from './builder.service';
 import { CreateBuilderContactDto } from './dtos/create-builder-contact.dto';
@@ -18,8 +26,11 @@ export class BuilderController {
   @Get(':id')
   @ApiOperation({ summary: 'Get a builder by ID' })
   @ApiResponse({ status: 200, description: 'Builder retrieved successfully' })
-  async getBuilderById(@Param('id') id: string) {
-    return this.builderService.getBuilderById(id);
+  async getBuilderById(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query('fetchContactPersons') fetchContactPersons: boolean = false,
+  ) {
+    return this.builderService.getBuilderById(id, fetchContactPersons);
   }
 
   @Get()
@@ -36,7 +47,7 @@ export class BuilderController {
     description: 'Contact person added successfully',
   })
   async addBuilderContactPerson(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() createBuilderContactDto: CreateBuilderContactDto,
   ) {
     return this.builderService.addBuilderContactPerson(

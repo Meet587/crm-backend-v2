@@ -25,12 +25,19 @@ export class BuilderService {
     }
   }
 
-  async getBuilderById(id: string): Promise<BuilderEntity> {
+  async getBuilderById(
+    id: string,
+    fetchContactPersons: boolean = false,
+  ): Promise<BuilderEntity> {
     try {
-      return await this.builderRepository.findByCondition({
+      const builder = await this.builderRepository.findByCondition({
         where: { id },
-        relations: { contact_persons: true },
+        relations: { contact_persons: fetchContactPersons },
       });
+      if (!builder) {
+        throw new NotFoundException('Builder not found');
+      }
+      return builder;
     } catch (error) {
       throw error;
     }
@@ -49,13 +56,7 @@ export class BuilderService {
     createBuilderContactDto: CreateBuilderContactDto,
   ): Promise<BuilderContactEntity> {
     try {
-      const builder = await this.builderRepository.findByCondition({
-        where: { id: builder_id },
-      });
-
-      if (!builder) {
-        throw new NotFoundException('Builder not found');
-      }
+      const builder = await this.getBuilderById(builder_id);
 
       return await this.builderContactRepository.save({
         ...createBuilderContactDto,

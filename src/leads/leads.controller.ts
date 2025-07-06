@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -15,7 +16,6 @@ import { Roles } from '../decorators/roles.decorator';
 
 import { RolesGuard } from '../auth/strategies/roles.guard';
 import { LeadActivityEntity } from '../db/entities/lead-activity.entity';
-import { LeadSourceEntity } from '../db/entities/lead-source.entity';
 import {
   CreateLeadDto,
   FindLeadsDto,
@@ -23,7 +23,6 @@ import {
   PaginatedResponseDto,
   UpdateLeadDto,
 } from './dto';
-import { CreateLeadSourceDto } from './dto/create-lead-source.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { LeadsActivityService } from './leads-activity.service';
 import { LeadsService } from './leads.service';
@@ -59,7 +58,9 @@ export class LeadsController {
     type: LeadResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Lead not found' })
-  async findOne(@Param('id') id: string): Promise<LeadResponseDto> {
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<LeadResponseDto> {
     return this.leadsService.findOne(id);
   }
 
@@ -83,7 +84,7 @@ export class LeadsController {
   })
   @ApiResponse({ status: 404, description: 'Lead not found' })
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateLeadDto: UpdateLeadDto,
   ): Promise<LeadResponseDto> {
     return this.leadsService.update(id, updateLeadDto);
@@ -95,11 +96,11 @@ export class LeadsController {
   @ApiOperation({ summary: 'Delete a lead by ID' })
   @ApiResponse({ status: 204, description: 'Lead deleted successfully' })
   @ApiResponse({ status: 404, description: 'Lead not found' })
-  async remove(@Param('id') id: string): Promise<void> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.leadsService.remove(id);
   }
 
-  @Put(':leadId/activity/:activityId')
+  @Put('activity/:activityId')
   @ApiOperation({ summary: 'Update an activity by ID' })
   @ApiResponse({
     status: 200,
@@ -108,7 +109,7 @@ export class LeadsController {
   })
   @ApiResponse({ status: 404, description: 'Lead not found' })
   async updateActivity(
-    @Param('activityId') activityId: string,
+    @Param('activityId', ParseUUIDPipe) activityId: string,
     @Body() updateActivityDto: UpdateActivityDto,
   ): Promise<LeadActivityEntity> {
     return this.leadsActivityService.updateActivity(
@@ -116,5 +117,4 @@ export class LeadsController {
       updateActivityDto,
     );
   }
-
 }

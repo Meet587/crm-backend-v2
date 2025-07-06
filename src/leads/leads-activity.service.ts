@@ -23,20 +23,28 @@ export class LeadsActivityService {
     return this.leadActivityRepository.save(activity);
   }
 
+  async getOne(id: string): Promise<LeadActivityEntity> {
+    try {
+      const activity = await this.leadActivityRepository.findOneById(id);
+      if (!activity) {
+        throw new NotFoundException(`Activity with ID ${id} not found`);
+      }
+      return activity;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async updateActivity(
     activityId: string,
     updateActivityDto: UpdateActivityDto,
   ): Promise<LeadActivityEntity> {
-    const activity = await this.leadActivityRepository.findByCondition({
-      where: { id: activityId },
-    });
-
-    if (!activity) {
-      throw new NotFoundException(`Activity with ID ${activityId} not found`);
+    try {
+      const activity = await this.getOne(activityId);
+      Object.assign(activity, updateActivityDto);
+      return this.leadActivityRepository.save(activity);
+    } catch (error) {
+      throw error;
     }
-
-    Object.assign(activity, updateActivityDto);
-
-    return this.leadActivityRepository.save(activity);
   }
 }
