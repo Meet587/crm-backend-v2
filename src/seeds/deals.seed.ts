@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { DataSource } from 'typeorm';
-import { DealEntity } from '../db/entities/deal.entity';
+import { DealEntity, DealStatusEnum } from '../db/entities/deal.entity';
 import { LeadEntity } from '../db/entities/lead.entity';
 import { PropertyEntity } from '../db/entities/property.entity';
 import { UserEntity } from '../db/entities/user.entity';
@@ -25,6 +25,15 @@ export const seedDeals = async (dataSource: DataSource) => {
     deal.lead_id = faker.helpers.arrayElement(leadIds);
     deal.property_id = faker.helpers.arrayElement(propertyIds);
     deal.rm_id = faker.helpers.arrayElement(userIds);
+    deal.client_name = faker.person.fullName();
+    deal.client_phone = faker.phone.number({ style: 'national' });
+    deal.client_email = faker.internet.email();
+    deal.deal_amount = faker.number.int({ min: 100000, max: 1000000 });
+    deal.commission_amount = faker.number.int({ min: 100000, max: 1000000 });
+    deal.commission_percentage = faker.number.int({ min: 1, max: 10 });
+    deal.possession_date = faker.date.future();
+    deal.deal_date = faker.date.recent();
+    deal.status = faker.helpers.arrayElement(Object.values(DealStatusEnum));
     return deal;
   });
 
