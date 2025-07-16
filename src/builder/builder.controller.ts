@@ -10,7 +10,7 @@ import {
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { BuilderService } from './builder.service';
 import { CreateBuilderContactDto } from './dtos/create-builder-contact.dto';
-import { CreateBuilderDto } from './dtos/create-builder.sto';
+import { CreateBuilderDto } from './dtos/create-builder.dto';
 
 @Controller('builder')
 export class BuilderController {

@@ -53,7 +53,15 @@ export class ProjectManagementService {
 
   async getAllProjects(): Promise<ProjectEntity[]> {
     try {
-      return await this.projectRepository.findAll();
+      return await this.projectRepository.findAll({
+        relations: { city: true },
+        select: {
+          city: {
+            name: true,
+            state: true,
+          },
+        },
+      });
     } catch (error) {
       throw error;
     }

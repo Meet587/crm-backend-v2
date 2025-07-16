@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
@@ -74,6 +75,6 @@ export class CreateBuilderDto {
     enum: BuilderStatusEnum,
   })
   @IsEnum(BuilderStatusEnum)
-  @IsNotEmpty()
-  status: BuilderStatusEnum;
+  @IsOptional()
+  status?: BuilderStatusEnum;
 }

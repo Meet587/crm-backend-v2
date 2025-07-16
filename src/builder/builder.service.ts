@@ -4,7 +4,7 @@ import { BuilderEntity } from '../db/entities/builder.entity';
 import { BuilderContactRepositoryInterface } from '../db/interfaces/builder-contact.interface';
 import { BuilderRepositoryInterface } from '../db/interfaces/builder.interface';
 import { CreateBuilderContactDto } from './dtos/create-builder-contact.dto';
-import { CreateBuilderDto } from './dtos/create-builder.sto';
+import { CreateBuilderDto } from './dtos/create-builder.dto';
 
 @Injectable()
 export class BuilderService {
