@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -11,6 +13,7 @@ import {
 import { BuilderEntity } from './builder.entity';
 import { CityEntity } from './city.entity';
 import { PropertyEntity } from './property.entity';
+import { AmenitiesEntity } from './amenities.entity';
 
 export enum ProjectTypeEnum {
   RESIDENTIAL = 'residential',
@@ -50,6 +53,9 @@ export class ProjectEntity {
   @Column({ type: 'date', nullable: true })
   possession_date: Date;
 
+  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
+  commission_rate: number;
+
   @Column({
     type: 'enum',
     enum: ProjectTypeEnum,
@@ -83,4 +89,12 @@ export class ProjectEntity {
 
   @OneToMany(() => PropertyEntity, (property) => property.project)
   properties: PropertyEntity[];
+
+  @ManyToMany(() => AmenitiesEntity, (amenity) => amenity.projects)
+  @JoinTable({
+    name: 'project_amenities',
+    joinColumn: { name: 'project_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'amenity_id', referencedColumnName: 'id' },
+  })
+  amenities: AmenitiesEntity[];
 }

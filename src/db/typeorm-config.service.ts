@@ -3,6 +3,7 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 import { Injectable } from '@nestjs/common';
 import { DbConfig } from '../config/interfaces/db.config';
+import { AmenitiesEntity } from './entities/amenities.entity';
 import { BuilderContactEntity } from './entities/builder-contact.entity';
 import { BuilderEntity } from './entities/builder.entity';
 import { CityEntity } from './entities/city.entity';
@@ -46,6 +47,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           LeadEntity,
           LeadSourceEntity,
           LeadActivityEntity,
+          AmenitiesEntity,
         ],
         logging: false,
         autoLoadEntities: true,

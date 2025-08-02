@@ -34,7 +34,10 @@ export class ProjectManagementController {
     @Param('id', ParseUUIDPipe) id: string,
     @Query('fetchProperties') fetchProperties: boolean = false,
   ) {
-    return await this.projectManagementService.getProjectById(id, fetchProperties);
+    return await this.projectManagementService.getProjectById(
+      id,
+      fetchProperties,
+    );
   }
 
   @Get()
@@ -51,6 +54,16 @@ export class ProjectManagementController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
-    return await this.projectManagementService.updateProject(id, updateProjectDto);
+    return await this.projectManagementService.updateProject(
+      id,
+      updateProjectDto,
+    );
+  }
+
+  @Get('amenities/list')
+  @ApiOperation({ summary: 'Get all amenities' })
+  @ApiResponse({ status: 200, description: 'Amenities retrieved successfully' })
+  async getAllAmenities() {
+    return await this.projectManagementService.getAllAmenities();
   }
 }

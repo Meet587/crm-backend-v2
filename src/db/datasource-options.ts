@@ -3,6 +3,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 import * as env from '../config/environment.config';
 import { DbConfig } from '../config/interfaces/db.config';
+import { AmenitiesEntity } from './entities/amenities.entity';
 import { BuilderContactEntity } from './entities/builder-contact.entity';
 import { BuilderEntity } from './entities/builder.entity';
 import { CityEntity } from './entities/city.entity';
@@ -37,6 +38,7 @@ export const dataSourceOptions: DataSourceOptions = {
     LeadEntity,
     LeadSourceEntity,
     LeadActivityEntity,
+    AmenitiesEntity,
   ],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   synchronize: true,

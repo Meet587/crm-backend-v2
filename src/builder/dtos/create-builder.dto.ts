@@ -7,8 +7,37 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { BuilderStatusEnum } from '../../db/entities/builder.entity';
+import { Type } from 'class-transformer';
+
+export class CreateBuilderAddressDto {
+  @ApiProperty({
+    description: 'The address line 1 of the builder',
+    example: '123 Main St',
+  })
+  @IsString()
+  @IsNotEmpty()
+  address_line_1: string;
+
+  @ApiProperty({
+    description: 'The address line 2 of the builder',
+    example: 'Apt 123',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  address_line_2?: string;
+
+  @ApiProperty({
+    description: 'The city ID of the builder',
+    example: '123',
+  })
+  @IsString()
+  @IsNotEmpty()
+  city_id: string;
+}
 
 export class CreateBuilderDto {
   @ApiProperty({
@@ -25,15 +54,9 @@ export class CreateBuilderDto {
   })
   @IsString()
   @IsNotEmpty()
-  address: string;
-
-  @ApiProperty({
-    description: 'The city ID of the builder',
-    example: '123',
-  })
-  @IsString()
-  @IsNotEmpty()
-  city_id: string;
+  @ValidateNested({ each: true })
+  @Type((v) => CreateBuilderAddressDto)
+  address: CreateBuilderAddressDto;
 
   @ApiProperty({
     description: 'The phone number of the builder',

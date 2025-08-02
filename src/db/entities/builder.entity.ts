@@ -28,12 +28,6 @@ export class BuilderEntity {
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
 
-  @Column({ type: 'text', nullable: true })
-  address: string;
-
-  @Column({ type: 'uuid', nullable: true })
-  city_id: string;
-
   @Column({ type: 'varchar', length: 15, nullable: true })
   phone: string;
 
@@ -43,8 +37,12 @@ export class BuilderEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   website: string;
 
-  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
-  commission_rate: number;
+  @Column({ type: 'jsonb', nullable: true })
+  address: {
+    address_line_1: string;
+    address_line_2: string;
+    city_id: string;
+  };
 
   @Column({
     type: 'enum',

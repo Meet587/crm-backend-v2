@@ -3,6 +3,7 @@ import { BuilderService } from '../builder/builder.service';
 import { CityService } from '../city/city.service';
 import { ProjectEntity } from '../db/entities/project.entity';
 import { ProjectRepositoryInterface } from '../db/interfaces/project.interface';
+import { AmenitiesRepositoryInterface } from './../db/interfaces/amenities.interface';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { UpdateProjectDto } from './dtos/update-project.dto';
 
@@ -11,6 +12,8 @@ export class ProjectManagementService {
   constructor(
     @Inject('projectRepositoryInterface')
     private readonly projectRepository: ProjectRepositoryInterface,
+    @Inject('amenitiesRepositoryInterface')
+    private readonly amenitiesRepository: AmenitiesRepositoryInterface,
     private readonly builderService: BuilderService,
     private readonly cityService: CityService,
   ) {}
@@ -82,6 +85,14 @@ export class ProjectManagementService {
         id: project.id,
       };
       return await this.projectRepository.save(updatedProject);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllAmenities() {
+    try {
+      return await this.amenitiesRepository.findAll();
     } catch (error) {
       throw error;
     }
