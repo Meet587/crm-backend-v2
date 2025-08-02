@@ -3,15 +3,32 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AmenitiesRepository } from 'src/db/repositories/amenities.repository';
 import { BuilderModule } from '../builder/builder.module';
 import { CityModule } from '../city/city.module';
+import { CommercialUnitEntity } from '../db/entities/commercial-unit.entity';
+import { LandPlotEntity } from '../db/entities/land-plot.entity';
 import { ProjectEntity } from '../db/entities/project.entity';
-import { ProjectRepository } from '../db/repositories/project.repository';
+import { ResidentialUnitEntity } from '../db/entities/residential-unit.entity';
+import { UnitFloorPlanEntity } from '../db/entities/unit-floor-plan.entity';
+import {
+  CommercialUnitRepository,
+  LandPlotRepository,
+  ProjectRepository,
+  ResidentialUnitRepository,
+  UnitFloorPlanRepository,
+} from '../db/repositories/project.repository';
 import { AmenitiesEntity } from './../db/entities/amenities.entity';
 import { ProjectManagementController } from './project-management.controller';
 import { ProjectManagementService } from './project-management.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProjectEntity, AmenitiesEntity]),
+    TypeOrmModule.forFeature([
+      ProjectEntity,
+      AmenitiesEntity,
+      ResidentialUnitEntity,
+      CommercialUnitEntity,
+      LandPlotEntity,
+      UnitFloorPlanEntity,
+    ]),
     BuilderModule,
     CityModule,
   ],
@@ -23,9 +40,26 @@ import { ProjectManagementService } from './project-management.service';
       useClass: ProjectRepository,
     },
     {
+      provide: 'residentialUnitRepositoryInterface',
+      useClass: ResidentialUnitRepository,
+    },
+    {
+      provide: 'commercialUnitRepositoryInterface',
+      useClass: CommercialUnitRepository,
+    },
+    {
+      provide: 'landPlotRepositoryInterface',
+      useClass: LandPlotRepository,
+    },
+    {
+      provide: 'unitFloorPlanRepositoryInterface',
+      useClass: UnitFloorPlanRepository,
+    },
+    {
       provide: 'amenitiesRepositoryInterface',
       useClass: AmenitiesRepository,
     },
   ],
+  exports: [ProjectManagementService],
 })
 export class ProjectManagementModule {}

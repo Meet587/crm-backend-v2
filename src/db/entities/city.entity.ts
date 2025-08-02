@@ -37,6 +37,6 @@ export class CityEntity {
   @ManyToMany(() => BuilderEntity, (builder) => builder.operating_cities)
   builders: BuilderEntity[];
 
-  @OneToMany(() => ProjectEntity, (project) => project.city)
+  @OneToMany(() => ProjectEntity, (project) => project.cities)
   projects: ProjectEntity[];
 }
