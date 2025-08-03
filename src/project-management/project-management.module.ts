@@ -18,6 +18,8 @@ import {
 import { AmenitiesEntity } from './../db/entities/amenities.entity';
 import { ProjectManagementController } from './project-management.controller';
 import { ProjectManagementService } from './project-management.service';
+import { ProjectUnitTypeService } from './project-unit-type.service';
+import { ProjectUnitTypeController } from './project-unit-type.controller';
 
 @Module({
   imports: [
@@ -32,9 +34,10 @@ import { ProjectManagementService } from './project-management.service';
     BuilderModule,
     CityModule,
   ],
-  controllers: [ProjectManagementController],
+  controllers: [ProjectManagementController, ProjectUnitTypeController],
   providers: [
     ProjectManagementService,
+    ProjectUnitTypeService,
     {
       provide: 'projectRepositoryInterface',
       useClass: ProjectRepository,
