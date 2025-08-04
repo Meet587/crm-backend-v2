@@ -28,8 +28,8 @@ export class CommissionEntity {
   @Column({ type: 'uuid', nullable: false })
   deal_id: string;
 
-  @Column({ type: 'uuid', nullable: false })
-  builder_id: string;
+  @Column({ type: 'number', nullable: false })
+  builder_id: number;
 
   @Column({ type: 'decimal', precision: 15, scale: 2, nullable: false })
   amount: number;

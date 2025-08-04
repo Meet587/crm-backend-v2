@@ -26,7 +26,7 @@ export class BuilderService {
   }
 
   async getBuilderById(
-    id: string,
+    id: number,
     include_contact_persons: boolean = false,
   ): Promise<BuilderEntity> {
     try {
@@ -52,7 +52,7 @@ export class BuilderService {
   }
 
   async addBuilderContactPerson(
-    builder_id: string,
+    builder_id: number,
     createBuilderContactDto: CreateBuilderContactDto,
   ): Promise<BuilderContactEntity> {
     try {
@@ -67,7 +67,7 @@ export class BuilderService {
     }
   }
 
-  async getBuilderContactPerson(id: string): Promise<BuilderContactEntity> {
+  async getBuilderContactPerson(id: number): Promise<BuilderContactEntity> {
     try {
       const builderContact =
         await this.builderContactRepository.findByCondition({

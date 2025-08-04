@@ -11,11 +11,11 @@ import { BuilderEntity } from './builder.entity';
 
 @Entity('builder_contacts')
 export class BuilderContactEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Column({ type: 'uuid', nullable: false })
-  builder_id: string;
+  @Column({ type: 'number', nullable: false })
+  builder_id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;

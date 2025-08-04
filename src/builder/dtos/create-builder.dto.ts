@@ -34,9 +34,9 @@ export class CreateBuilderAddressDto {
     description: 'The city ID of the builder',
     example: '123',
   })
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  city_id: string;
+  city_id: number;
 }
 
 export class CreateBuilderDto {

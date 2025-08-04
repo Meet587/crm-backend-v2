@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
@@ -36,11 +37,11 @@ export class CreateProjectDto {
 
   @ApiProperty({
     description: 'The builder ID of the project',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    example: '1',
   })
-  @IsUUID()
+  @IsNumber()
   @IsNotEmpty()
-  builder_id: string;
+  builder_id: number;
 
   @ApiProperty({
     description: 'The construction type of the project',
@@ -113,22 +114,22 @@ export class CreateProjectDto {
   @ApiProperty({
     description: 'The location IDs of the project',
     isArray: true,
-    example: ['123e4567-e89b-12d3-a456-426614174000'],
+    example: ['1', '2'],
   })
   @IsArray()
-  @IsUUID('4', { each: true })
+  @IsNumber()
   @IsOptional()
-  location_ids?: string[];
+  location_ids?: number[];
 
   @ApiProperty({
     description: 'The amenities IDs of the project',
     isArray: true,
-    example: ['123e4567-e89b-12d3-a456-426614174000'],
+    example: ['1', '2'],
   })
   @IsArray()
-  @IsUUID('4', { each: true })
+  @IsNumber()
   @IsOptional()
-  amenities_ids?: string[];
+  amenities_ids?: number[];
 
   @ApiProperty({
     description: 'The brochure URL of the project',

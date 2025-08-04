@@ -4,10 +4,11 @@ import { seedBuilderContacts } from './builder-contact.seed';
 import { seedBuilders } from './builders.seed';
 import { seedCommissions } from './commission.seed';
 import { seedDeals } from './deals.seed';
-import { seedLeadActivities } from './lead-activityseed';
+import { seedLeadActivities } from './lead-activity.seed';
 import { seedLeads } from './lead.seed';
 import { seedProjects } from './project.seed';
 import { seedProperties } from './property.seed';
+import { seedLeadSources } from 'src/seeds/lead-source.seed';
 
 const dataSource = new DataSource(dataSourceOptions);
 
@@ -17,7 +18,7 @@ dataSource
     console.log('Seeding data...');
     await seedBuilders(dataSource);
     await seedBuilderContacts(dataSource);
-    // await seedLeadSources(dataSource);
+    await seedLeadSources(dataSource);
     await seedProjects(dataSource);
     await seedProperties(dataSource);
     await seedLeads(dataSource);

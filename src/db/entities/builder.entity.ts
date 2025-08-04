@@ -22,8 +22,8 @@ export enum BuilderStatusEnum {
 
 @Entity('builders')
 export class BuilderEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
@@ -41,7 +41,7 @@ export class BuilderEntity {
   address: {
     address_line_1: string;
     address_line_2: string;
-    city_id: string;
+    city_id: number;
   };
 
   @Column({
@@ -58,7 +58,7 @@ export class BuilderEntity {
   updated_at: Date;
 
   // Relationships
-  @ManyToOne(() => CityEntity, { nullable: true })
+  @ManyToOne(() => CityEntity, { nullable: false })
   @JoinColumn({ name: 'city_id' })
   city: CityEntity;
 

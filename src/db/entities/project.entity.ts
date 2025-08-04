@@ -24,8 +24,8 @@ export class ProjectEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'uuid', nullable: false })
-  builder_id: string;
+  @Column({ type: 'number', nullable: false })
+  builder_id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
@@ -59,10 +59,10 @@ export class ProjectEntity {
   is_ready_possession: boolean;
 
   @Column({ type: 'simple-array', nullable: true })
-  city_id: string[];
+  city_id: number[];
 
   @Column({ type: 'simple-array', nullable: true })
-  amenities_ids: string[];
+  amenities_ids: number[];
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   brochure_url: string;

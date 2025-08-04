@@ -3,7 +3,7 @@ import {
   Controller,
   Get,
   Param,
-  ParseUUIDPipe,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -27,7 +27,7 @@ export class BuilderController {
   @ApiOperation({ summary: 'Get a builder by ID' })
   @ApiResponse({ status: 200, description: 'Builder retrieved successfully' })
   async getBuilderById(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Query('include_contact_persons') include_contact_persons: boolean = false,
   ) {
     return this.builderService.getBuilderById(id, include_contact_persons);
@@ -47,7 +47,7 @@ export class BuilderController {
     description: 'Contact person added successfully',
   })
   async addBuilderContactPerson(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() createBuilderContactDto: CreateBuilderContactDto,
   ) {
     return this.builderService.addBuilderContactPerson(
