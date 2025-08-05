@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AmenitiesEntity } from 'src/db/entities/amenities.entity';
 import { DataSource } from 'typeorm';
+import { AmenitiesEntity } from '../db/entities/amenities.entity';
 import { BuilderEntity } from '../db/entities/builder.entity';
 import { CityEntity } from '../db/entities/city.entity';
 import { ProjectEntity } from '../db/entities/project.entity';
@@ -27,7 +27,7 @@ export const seedProjects = async (dataSource: DataSource) => {
     project.description = faker.lorem.sentence();
     project.city_id = faker.helpers.arrayElements(cityIds);
     project.amenities_ids = faker.helpers.arrayElements(amenityIds);
-    project.possession_year = faker.number.int({ min: 2020, max: 2025 });
+    project.possession_year = faker.number.int({ min: 2020, max: 2027 });
 
     return project;
   });

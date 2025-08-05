@@ -57,11 +57,6 @@ export class BuilderEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  // Relationships
-  @ManyToOne(() => CityEntity, { nullable: false })
-  @JoinColumn({ name: 'city_id' })
-  city: CityEntity;
-
   @ManyToMany(() => CityEntity, (city) => city.builders)
   @JoinTable({
     name: 'builder_operating_cities',

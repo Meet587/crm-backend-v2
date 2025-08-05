@@ -19,6 +19,8 @@ import { PropertyEntity } from './entities/property.entity';
 import { ResidentialUnitEntity } from './entities/residential-unit.entity';
 import { UnitFloorPlanEntity } from './entities/unit-floor-plan.entity';
 import { UserEntity } from './entities/user.entity';
+import { LeadAssignmentHistoryEntity } from './entities/lead-assignment-history.entity';
+import { LeadStatusHistoryEntity } from './entities/lead-status-history.entity';
 
 dotenv.config();
 const dbConfig = env.getConfig().dbConfig as DbConfig;
@@ -46,6 +48,8 @@ export const dataSourceOptions: DataSourceOptions = {
     LeadEntity,
     LeadSourceEntity,
     LeadActivityEntity,
+    LeadAssignmentHistoryEntity,
+    LeadStatusHistoryEntity,
     AmenitiesEntity,
   ],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],

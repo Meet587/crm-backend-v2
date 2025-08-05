@@ -29,6 +29,7 @@ export const seedBuilders = async (dataSource: DataSource) => {
     builder.status = faker.helpers.arrayElement(
       Object.values(BuilderStatusEnum),
     );
+    builder.operating_cities = faker.helpers.arrayElements([new CityEntity()]);
     return builder;
   });
 

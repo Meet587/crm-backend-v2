@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { DealEntity } from './deal.entity';
 import { LeadActivityEntity } from './lead-activity.entity';
+import { LeadAssignmentHistoryEntity } from './lead-assignment-history.entity';
 import { LeadEntity } from './lead.entity';
 
 export enum UserRoleEnum {
@@ -67,7 +68,9 @@ export class UserEntity {
   deals: DealEntity[];
 
   // TODO: Uncomment this when we have a way to store the assignment history
-  // @OneToMany(() => LeadAssignmentHistoryEntity, (assignment) => assignment.assigned_to_user)
-  // assignment_history: LeadAssignmentHistoryEntity[];
-
+  @OneToMany(
+    () => LeadAssignmentHistoryEntity,
+    (assignment) => assignment.assigned_to_user,
+  )
+  assignment_history: LeadAssignmentHistoryEntity[];
 }

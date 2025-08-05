@@ -12,7 +12,9 @@ import { CommissionEntity } from './entities/commission.entity';
 import { DealEntity } from './entities/deal.entity';
 import { LandPlotEntity } from './entities/land-plot.entity';
 import { LeadActivityEntity } from './entities/lead-activity.entity';
+import { LeadAssignmentHistoryEntity } from './entities/lead-assignment-history.entity';
 import { LeadSourceEntity } from './entities/lead-source.entity';
+import { LeadStatusHistoryEntity } from './entities/lead-status-history.entity';
 import { LeadEntity } from './entities/lead.entity';
 import { ProjectEntity } from './entities/project.entity';
 import { PropertyEntity } from './entities/property.entity';
@@ -55,6 +57,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           LeadEntity,
           LeadSourceEntity,
           LeadActivityEntity,
+          LeadAssignmentHistoryEntity,
+          LeadStatusHistoryEntity,
           AmenitiesEntity,
         ],
         logging: false,

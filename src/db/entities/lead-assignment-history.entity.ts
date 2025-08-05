@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { LeadEntity } from './lead.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('lead_assignment_history')
 export class LeadAssignmentHistoryEntity {
@@ -19,15 +27,15 @@ export class LeadAssignmentHistoryEntity {
   assigned_at: Date;
 
   // Relationships
-  //   @ManyToOne(() => LeadEntity, (lead) => lead.assignment_history, {
-  //     onDelete: 'CASCADE',
-  //   })
-  //   @JoinColumn({ name: 'lead_id' })
-  //   lead: LeadEntity;
+  @ManyToOne(() => LeadEntity, (lead) => lead.assignment_history, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'lead_id' })
+  lead: LeadEntity;
 
-  //   @ManyToOne(() => UserEntity, (user) => user.assignment_history, {
-  //     nullable: true,
-  //   })
-  //   @JoinColumn({ name: 'assigned_to' })
-  //   assigned_to_user: UserEntity;
+  @ManyToOne(() => UserEntity, (user) => user.assignment_history, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'assigned_to' })
+  assigned_to_user: UserEntity;
 }
