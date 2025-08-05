@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { AppController } from './app.controller';
@@ -29,7 +31,17 @@ import { UsersModule } from './users/users.module';
         return new DataSource(options).initialize();
       },
     }),
-
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: seconds(10),
+          limit: 100,
+          name: 'default',
+          blockDuration: seconds(1),
+        },
+      ],
+      errorMessage: 'Too many requests!',
+    }),
     AuthModule,
     LeadsModule,
     CommissionModule,
@@ -41,6 +53,12 @@ import { UsersModule } from './users/users.module';
     DealModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
