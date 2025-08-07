@@ -17,16 +17,19 @@ export const seedBuilders = async (dataSource: DataSource) => {
   const builders = Array.from({ length: 10 }).map(() => {
     const builder = new BuilderEntity();
     builder.name = faker.company.name();
-    builder.address = faker.location.streetAddress();
-    builder.city_id = faker.helpers.arrayElement(cityIds);
     builder.phone = faker.phone.number({ style: 'national' });
     builder.email = faker.internet.email();
     builder.website = faker.internet.url();
-    builder.commission_rate = faker.number.int({ min: 1, max: 10 });
+    builder.address = {
+      address_line_1: faker.location.streetAddress(),
+      address_line_2: faker.location.secondaryAddress(),
+      city_id: faker.helpers.arrayElement(cityIds),
+    };
     builder.contact_persons = [new BuilderContactEntity()];
     builder.status = faker.helpers.arrayElement(
       Object.values(BuilderStatusEnum),
     );
+    builder.operating_cities = faker.helpers.arrayElements([new CityEntity()]);
     return builder;
   });
 

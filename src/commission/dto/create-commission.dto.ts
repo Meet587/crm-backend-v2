@@ -18,8 +18,8 @@ export class CreateCommissionDto {
   @ApiProperty({
     description: 'The ID of the builder associated with the commission',
   })
-  @IsString()
-  builder_id: string;
+  @IsNumber()
+  builder_id: number;
 
   @ApiProperty({ description: 'The amount of the commission' })
   @IsNumber()

@@ -12,13 +12,13 @@ import { ProjectEntity } from './project.entity';
 
 @Entity('cities')
 export class CityEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ type: 'varchar', length: 100, nullable: false })
   name: string;
 
-  @Column({ type: 'varchar', length: 10, nullable: false })
+  @Column({ type: 'varchar', length: 10, nullable: true })
   pincode: string;
 
   @Column({ type: 'varchar', length: 100, nullable: false })
@@ -37,6 +37,6 @@ export class CityEntity {
   @ManyToMany(() => BuilderEntity, (builder) => builder.operating_cities)
   builders: BuilderEntity[];
 
-  @OneToMany(() => ProjectEntity, (project) => project.city)
+  @OneToMany(() => ProjectEntity, (project) => project.cities)
   projects: ProjectEntity[];
 }

@@ -1,8 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { BuilderService } from '../builder/builder.service';
-import { CityService } from '../city/city.service';
 import { ProjectEntity } from '../db/entities/project.entity';
 import { ProjectRepositoryInterface } from '../db/interfaces/project.interface';
+import { AmenitiesRepositoryInterface } from './../db/interfaces/amenities.interface';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { UpdateProjectDto } from './dtos/update-project.dto';
 
@@ -11,8 +11,9 @@ export class ProjectManagementService {
   constructor(
     @Inject('projectRepositoryInterface')
     private readonly projectRepository: ProjectRepositoryInterface,
+    @Inject('amenitiesRepositoryInterface')
+    private readonly amenitiesRepository: AmenitiesRepositoryInterface,
     private readonly builderService: BuilderService,
-    private readonly cityService: CityService,
   ) {}
 
   async createProject(
@@ -22,7 +23,6 @@ export class ProjectManagementService {
       const builder = await this.builderService.getBuilderById(
         createProjectDto.builder_id,
       );
-      const city = await this.cityService.getCityById(createProjectDto.city_id);
       return await this.projectRepository.save(createProjectDto);
     } catch (error) {
       throw error;
@@ -31,7 +31,7 @@ export class ProjectManagementService {
 
   async getProjectById(
     id: string,
-    fetchProperties: boolean,
+    fetchUnits: boolean = false,
   ): Promise<ProjectEntity> {
     try {
       const project = await this.projectRepository.findByCondition({
@@ -39,7 +39,9 @@ export class ProjectManagementService {
           id,
         },
         relations: {
-          properties: fetchProperties,
+          residential_units: fetchUnits,
+          commercial_units: fetchUnits,
+          land_plots: fetchUnits,
         },
       });
       if (!project) {
@@ -53,15 +55,7 @@ export class ProjectManagementService {
 
   async getAllProjects(): Promise<ProjectEntity[]> {
     try {
-      return await this.projectRepository.findAll({
-        relations: { city: true },
-        select: {
-          city: {
-            name: true,
-            state: true,
-          },
-        },
-      });
+      return await this.projectRepository.findAll();
     } catch (error) {
       throw error;
     }
@@ -82,6 +76,14 @@ export class ProjectManagementService {
         id: project.id,
       };
       return await this.projectRepository.save(updatedProject);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllAmenities() {
+    try {
+      return await this.amenitiesRepository.findAll();
     } catch (error) {
       throw error;
     }

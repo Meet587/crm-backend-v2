@@ -14,6 +14,8 @@ import { LeadActivityEntity } from './lead-activity.entity';
 import { LeadSourceEntity } from './lead-source.entity';
 import { PropertyEntity } from './property.entity';
 import { UserEntity } from './user.entity';
+import { LeadAssignmentHistoryEntity } from './lead-assignment-history.entity';
+import { LeadStatusHistoryEntity } from './lead-status-history.entity';
 
 export enum LeadStatusEnum {
   NEW = 'new',
@@ -100,11 +102,11 @@ export class LeadEntity {
   @OneToMany(() => DealEntity, (deal) => deal.lead)
   deals: DealEntity[];
 
-  // @OneToMany(() => LeadAssignmentHistoryEntity, (assignment) => assignment.lead)
-  // assignment_history: LeadAssignmentHistoryEntity[];
+  @OneToMany(() => LeadAssignmentHistoryEntity, (assignment) => assignment.lead)
+  assignment_history: LeadAssignmentHistoryEntity[];
 
-  // @OneToMany(() => LeadStatusHistoryEntity, (status) => status.lead)
-  // status_history: LeadStatusHistoryEntity[];
+  @OneToMany(() => LeadStatusHistoryEntity, (status) => status.lead)
+  status_history: LeadStatusHistoryEntity[];
 
   // Virtual field for full name
   get full_name(): string {

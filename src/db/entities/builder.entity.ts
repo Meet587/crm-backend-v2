@@ -22,17 +22,11 @@ export enum BuilderStatusEnum {
 
 @Entity('builders')
 export class BuilderEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
-
-  @Column({ type: 'text', nullable: true })
-  address: string;
-
-  @Column({ type: 'uuid', nullable: true })
-  city_id: string;
 
   @Column({ type: 'varchar', length: 15, nullable: true })
   phone: string;
@@ -43,8 +37,12 @@ export class BuilderEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   website: string;
 
-  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
-  commission_rate: number;
+  @Column({ type: 'jsonb', nullable: true })
+  address: {
+    address_line_1: string;
+    address_line_2: string;
+    city_id: number;
+  };
 
   @Column({
     type: 'enum',
@@ -58,11 +56,6 @@ export class BuilderEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  // Relationships
-  @ManyToOne(() => CityEntity, { nullable: true })
-  @JoinColumn({ name: 'city_id' })
-  city: CityEntity;
 
   @ManyToMany(() => CityEntity, (city) => city.builders)
   @JoinTable({
