@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
@@ -116,9 +117,10 @@ export class CreateProjectDto {
     example: ['1', '2'],
   })
   @IsArray()
-  @IsNumber()
+  @Transform(({ value }) => value.map(Number))
+  @IsNumber({}, { each: true })
   @IsOptional()
-  location_ids?: number[];
+  city_id?: number[];
 
   @ApiProperty({
     description: 'The amenities IDs of the project',
@@ -126,7 +128,8 @@ export class CreateProjectDto {
     example: ['1', '2'],
   })
   @IsArray()
-  @IsNumber()
+  @Transform(({ value }) => value.map(Number))
+  @IsNumber({}, { each: true })
   @IsOptional()
   amenities_ids?: number[];
 

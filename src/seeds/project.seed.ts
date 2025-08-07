@@ -25,8 +25,11 @@ export const seedProjects = async (dataSource: DataSource) => {
     project.builder_id = faker.helpers.arrayElement(builderIds);
     project.name = faker.company.name();
     project.description = faker.lorem.sentence();
-    project.city_id = faker.helpers.arrayElements(cityIds);
-    project.amenities_ids = faker.helpers.arrayElements(amenityIds);
+    project.city_id = faker.helpers.arrayElements(cityIds, { min: 1, max: 3 });
+    project.amenities_ids = faker.helpers.arrayElements(amenityIds, {
+      min: 3,
+      max: 8,
+    });
     project.possession_year = faker.number.int({ min: 2020, max: 2027 });
 
     return project;

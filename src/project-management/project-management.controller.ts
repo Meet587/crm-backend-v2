@@ -27,7 +27,7 @@ export class ProjectManagementController {
     return this.projectManagementService.createProject(createProjectDto);
   }
 
-  @Get('project/:id')
+  @Get(':id')
   async getProjectById(
     @Param('id') id: string,
     @Query('fetchUnits') fetchUnits: boolean,
