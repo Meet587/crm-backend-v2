@@ -7,9 +7,9 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+import { PropertyTypeEnum } from '../../db/entities/project.enums';
 import {
   PropertyStatusEnum,
-  PropertyTypeEnum,
   SizeUnitEnum,
 } from '../../db/entities/property.entity';
 
@@ -88,7 +88,7 @@ export class CreatePropertyDto {
 
   @ApiProperty({
     description: 'The type of the property',
-    example: PropertyTypeEnum.FLAT,
+    example: PropertyTypeEnum.COMMERCIAL,
   })
   @IsNotEmpty()
   @IsEnum(PropertyTypeEnum)

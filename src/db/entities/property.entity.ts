@@ -1,24 +1,17 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { ProjectEntity } from './project.entity';
-import { LeadEntity } from './lead.entity';
 import { DealEntity } from './deal.entity';
-
-export enum PropertyTypeEnum {
-  FLAT = 'flat',
-  VILLA = 'villa',
-  SHOP = 'shop',
-  LAND = 'land',
-  OFFICE = 'office',
-}
+import { LeadEntity } from './lead.entity';
+import { ProjectEntity } from './project.entity';
+import { PropertyTypeEnum } from './project.enums';
 
 export enum SizeUnitEnum {
   SQFT = 'sqft',
@@ -47,7 +40,7 @@ export class PropertyEntity {
   @Column({
     type: 'enum',
     enum: PropertyTypeEnum,
-    default: PropertyTypeEnum.FLAT,
+    default: PropertyTypeEnum.COMMERCIAL,
   })
   property_type: PropertyTypeEnum;
 

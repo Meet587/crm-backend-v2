@@ -12,6 +12,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { UpdateProjectDto } from './dtos/update-project.dto';
 import { ProjectManagementService } from './project-management.service';
+import { SearchProjectQueryDto } from './dtos/search-query';
 
 @Controller('project')
 @ApiTags('Project Management')
@@ -36,10 +37,14 @@ export class ProjectManagementController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all projects' })
+  @ApiOperation({
+    summary: 'Get all projects with optional search and pagination',
+    description:
+      'Retrieve projects with optional filtering by name, property subtypes, and possession status. Supports pagination.',
+  })
   @ApiResponse({ status: 200, description: 'Projects retrieved successfully' })
-  async getAllProjects() {
-    return await this.projectManagementService.getAllProjects();
+  async getAllProjects(@Query() searchQuery?: SearchProjectQueryDto) {
+    return await this.projectManagementService.getAllProjects(searchQuery);
   }
 
   @Put(':id')

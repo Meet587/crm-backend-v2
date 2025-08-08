@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
+import { PropertyTypeEnum } from 'src/db/entities/project.enums';
 import { DataSource } from 'typeorm';
 import { ProjectEntity } from '../db/entities/project.entity';
 import {
   PropertyEntity,
   PropertyStatusEnum,
-  PropertyTypeEnum,
   SizeUnitEnum,
 } from '../db/entities/property.entity';
 
