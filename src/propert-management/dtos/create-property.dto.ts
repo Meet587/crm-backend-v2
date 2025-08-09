@@ -7,11 +7,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
-import { PropertyTypeEnum } from '../../db/entities/project.enums';
-import {
-  PropertyStatusEnum,
-  SizeUnitEnum,
-} from '../../db/entities/property.entity';
+import { AreaUnitEnum, PropertyTypeEnum } from '../../db/entities/project.enums';
 
 export class CreatePropertyDto {
   @ApiProperty({
@@ -40,11 +36,11 @@ export class CreatePropertyDto {
 
   @ApiProperty({
     description: 'The size unit of the property',
-    example: SizeUnitEnum.SQFT,
+    example: AreaUnitEnum.SQFT,
   })
   @IsOptional()
-  @IsEnum(SizeUnitEnum)
-  size_unit?: SizeUnitEnum;
+  @IsEnum(AreaUnitEnum)
+  size_unit?: AreaUnitEnum;
 
   @ApiProperty({
     description: 'The number of bedrooms',
@@ -80,11 +76,11 @@ export class CreatePropertyDto {
 
   @ApiProperty({
     description: 'The status of the property',
-    example: PropertyStatusEnum.AVAILABLE,
+    example: AreaUnitEnum.SQFT,
   })
   @IsNotEmpty()
-  @IsEnum(PropertyStatusEnum)
-  status: PropertyStatusEnum;
+  @IsEnum(AreaUnitEnum)
+  status: AreaUnitEnum;
 
   @ApiProperty({
     description: 'The type of the property',

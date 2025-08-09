@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { PropertyTypeEnum } from 'src/db/entities/project.enums';
+import { PropertyTypeEnum } from '../db/entities/project.enums';
 import { DataSource } from 'typeorm';
 import { AmenitiesEntity } from '../db/entities/amenities.entity';
 import { BuilderEntity } from '../db/entities/builder.entity';

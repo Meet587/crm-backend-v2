@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { DataSource } from 'typeorm';
 import { CommercialUnitEntity } from '../db/entities/commercial-unit.entity';
 import { ProjectEntity } from '../db/entities/project.entity';
-import { AreaUnit, PropertySubtypeEnum } from '../db/entities/project.enums';
+import { AreaUnitEnum, PropertySubtypeEnum } from '../db/entities/project.enums';
 
 export const seedCommercialUnits = async (dataSource: DataSource) => {
   const commercialUnitRepo = dataSource.getRepository(CommercialUnitEntity);
@@ -46,7 +46,7 @@ export const seedCommercialUnits = async (dataSource: DataSource) => {
         width: 800,
         height: 600,
       });
-      commercialUnit.inserted_area_unit = AreaUnit.SQFT;
+      commercialUnit.inserted_area_unit = AreaUnitEnum.SQFT;
 
       commercialUnits.push(commercialUnit);
     }

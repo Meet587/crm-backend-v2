@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { DataSource } from 'typeorm';
 import { LandPlotEntity } from '../db/entities/land-plot.entity';
 import { ProjectEntity } from '../db/entities/project.entity';
-import { AreaUnit, PropertySubtypeEnum } from '../db/entities/project.enums';
+import { AreaUnitEnum, PropertySubtypeEnum } from '../db/entities/project.enums';
 
 export const seedLandPlots = async (dataSource: DataSource) => {
   const landPlotRepo = dataSource.getRepository(LandPlotEntity);
@@ -47,7 +47,7 @@ export const seedLandPlots = async (dataSource: DataSource) => {
         width: 800,
         height: 600,
       });
-      landPlot.inserted_area_unit = AreaUnit.SQFT;
+      landPlot.inserted_area_unit = AreaUnitEnum.SQFT;
 
       landPlots.push(landPlot);
     }

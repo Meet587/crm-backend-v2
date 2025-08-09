@@ -7,7 +7,10 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
-import { AreaUnit, PropertySubtypeEnum } from '../../db/entities/project.enums';
+import {
+  AreaUnitEnum,
+  PropertySubtypeEnum,
+} from '../../db/entities/project.enums';
 
 export class CreateLandPlotDto {
   @ApiProperty({
@@ -77,10 +80,10 @@ export class CreateLandPlotDto {
 
   @ApiProperty({
     description: 'The area unit used for the land plot',
-    enum: AreaUnit,
-    default: AreaUnit.SQFT,
+    enum: AreaUnitEnum,
+    default: AreaUnitEnum.SQFT,
   })
-  @IsEnum(AreaUnit)
+  @IsEnum(AreaUnitEnum)
   @IsOptional()
-  inserted_area_unit?: AreaUnit;
+  inserted_area_unit?: AreaUnitEnum;
 }
