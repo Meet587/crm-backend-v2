@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { BuilderEntity } from './builder.entity';
 import { ProjectEntity } from './project.entity';
+import { PropertyEntity } from './property.entity';
 
 @Entity('cities')
 export class CityEntity {
@@ -38,4 +39,7 @@ export class CityEntity {
 
   @ManyToMany(() => ProjectEntity, (project) => project.cities)
   projects: ProjectEntity[];
+
+  @ManyToMany(() => PropertyEntity, (property) => property.locations)
+  properties: PropertyEntity[];
 }

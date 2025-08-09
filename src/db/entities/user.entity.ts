@@ -10,6 +10,7 @@ import { DealEntity } from './deal.entity';
 import { LeadActivityEntity } from './lead-activity.entity';
 import { LeadAssignmentHistoryEntity } from './lead-assignment-history.entity';
 import { LeadEntity } from './lead.entity';
+import { PropertyEntity } from './property.entity';
 
 export enum UserRoleEnum {
   ADMIN = 'admin',
@@ -73,4 +74,7 @@ export class UserEntity {
     (assignment) => assignment.assigned_to_user,
   )
   assignment_history: LeadAssignmentHistoryEntity[];
+
+  @OneToMany(() => PropertyEntity, (property) => property.assign_to)
+  assigned_properties: PropertyEntity[];
 }

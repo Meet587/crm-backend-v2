@@ -35,10 +35,11 @@ export enum ConstructionType {
   NEW = 'NEW',
 }
 
-export enum AreaUnit {
+export enum AreaUnitEnum {
   SQFT = 'SQFT', // Square Feet
   SQYD = 'SQYD', // Square Yard
   SQMT = 'SQMT', // Square Meter
   ACRE = 'ACRE', // Acres
   BIGHA = 'BIGHA', // Bigha
+  HECTARE = 'HECTARE',
 }

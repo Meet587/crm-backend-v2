@@ -2,10 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -14,6 +12,7 @@ import { BuilderContactEntity } from './builder-contact.entity';
 import { CityEntity } from './city.entity';
 import { CommissionEntity } from './commission.entity';
 import { ProjectEntity } from './project.entity';
+import { PropertyEntity } from './property.entity';
 
 export enum BuilderStatusEnum {
   ACTIVE = 'active',
@@ -73,4 +72,7 @@ export class BuilderEntity {
 
   @OneToMany(() => CommissionEntity, (commission) => commission.builder)
   commissions: CommissionEntity[];
+
+  @OneToMany(() => PropertyEntity, (property) => property.builder)
+  properties: PropertyEntity[];
 }

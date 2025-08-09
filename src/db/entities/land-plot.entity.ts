@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProjectEntity } from './project.entity';
-import { AreaUnit, PropertySubtypeEnum } from './project.enums';
+import { AreaUnitEnum, PropertySubtypeEnum } from './project.enums';
 import { UnitFloorPlanEntity } from './unit-floor-plan.entity';
 
 @Entity('land_plots')
@@ -44,10 +44,10 @@ export class LandPlotEntity {
 
   @Column({
     type: 'enum',
-    enum: AreaUnit,
-    default: AreaUnit.SQFT,
+    enum: AreaUnitEnum,
+    default: AreaUnitEnum.SQFT,
   })
-  inserted_area_unit: AreaUnit;
+  inserted_area_unit: AreaUnitEnum;
 
   // Relationships
   @ManyToOne(() => ProjectEntity, (project) => project.land_plots, {
