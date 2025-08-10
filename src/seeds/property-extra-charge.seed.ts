@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker';
 import { DataSource } from 'typeorm';
-import { PropertyExtraChargeEntity } from '../db/entities/property-extra-charge.entity';
+import {
+  PropertyExtraChargeEntity,
+  PropertyExtraChargeType,
+} from '../db/entities/property-extra-charge.entity';
 import { PropertyPricingEntity } from '../db/entities/property-pricing.entity';
 
 export const seedPropertyExtraCharges = async (dataSource: DataSource) => {
@@ -18,30 +21,19 @@ export const seedPropertyExtraCharges = async (dataSource: DataSource) => {
     return;
   }
 
-  const chargeTypes = [
-    'Maintenance Charges',
-    'Parking Charges',
-    'Club Membership',
-    'Power Backup',
-    'Legal Charges',
-    'Registration Charges',
-    'Stamp Duty',
-    'GST',
-    'Development Charges',
-    'Utility Charges',
-  ];
-
   const propertyExtraCharges = [];
 
   // Create 2-5 extra charges for each property pricing
   for (const pricing of propertyPricings) {
-    const numberOfCharges = faker.number.int({ min: 2, max: 5 });
+    const numberOfCharges = faker.number.int({ min: 1, max: 3 });
 
     for (let i = 0; i < numberOfCharges; i++) {
       const extraCharge = new PropertyExtraChargeEntity();
 
       extraCharge.pricing = pricing;
-      extraCharge.charge_type = faker.helpers.arrayElement(chargeTypes);
+      extraCharge.charge_type = faker.helpers.arrayElement(
+        Object.values(PropertyExtraChargeType),
+      );
       extraCharge.percentage = faker.number.float({
         min: 0,
         max: 10,

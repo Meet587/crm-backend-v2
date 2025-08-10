@@ -82,15 +82,13 @@ export class PropertyEntity {
   @Column({
     type: 'enum',
     enum: ListingForEnum,
-    default: ListingForEnum.SALE,
-    nullable: true,
   })
   listing_for: ListingForEnum;
 
-  @Column({ type: 'enum', enum: PropertyTypeEnum, nullable: true })
+  @Column({ type: 'enum', enum: PropertyTypeEnum })
   property_type: PropertyTypeEnum;
 
-  @Column({ type: 'enum', enum: PropertySubtypeEnum, nullable: true })
+  @Column({ type: 'enum', enum: PropertySubtypeEnum })
   property_sub_type: PropertySubtypeEnum;
 
   @ManyToOne(() => UserEntity, { nullable: true })
