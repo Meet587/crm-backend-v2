@@ -57,7 +57,7 @@ export class PropertyPricingEntity {
   @Column({ default: 'INR' })
   currency: string;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn()
   updated_at: Date;
 
   @OneToMany(() => PropertyExtraChargeEntity, (charge) => charge.pricing)

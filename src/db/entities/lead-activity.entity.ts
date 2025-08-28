@@ -79,7 +79,7 @@ export class LeadActivityEntity {
   lead: LeadEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.lead_activities, {
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'created_by' })
   created_by_user: UserEntity;

@@ -1,23 +1,44 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
-import { PropertyTypeEnum } from 'src/db/entities/project.enums';
-import { ListingForEnum } from 'src/db/entities/property.entity';
+import {
+  PropertySubtypeEnum,
+  PropertyTypeEnum,
+} from 'src/db/entities/project.enums';
+import {
+  FurnishingEnum,
+  ListingForEnum,
+} from 'src/db/entities/property.entity';
+import { PaginationDto } from 'src/helpers/pagination.dto';
 
-export class SearchPropertyQueryDto {
+export class SearchPropertyQueryDto extends PaginationDto {
   @ApiPropertyOptional({
     enum: PropertyTypeEnum,
     description: 'Type of property to search for',
-    example: PropertyTypeEnum.RESIDENTIAL,
   })
   @IsOptional()
   @IsEnum(PropertyTypeEnum)
   propertyType?: PropertyTypeEnum;
 
   @ApiPropertyOptional({
+    description: 'Property subtype',
+    enum: PropertySubtypeEnum,
+  })
+  @IsOptional()
+  @IsEnum(PropertySubtypeEnum)
+  propertySubType?: PropertySubtypeEnum;
+
+  @ApiPropertyOptional({
+    description: 'Furnishing status',
+    enum: FurnishingEnum,
+  })
+  @IsOptional()
+  @IsEnum(FurnishingEnum)
+  furnishing?: FurnishingEnum;
+
+  @ApiPropertyOptional({
     enum: ListingForEnum,
     description: 'Whether property is for sale or rent',
-    example: ListingForEnum.SALE,
   })
   @IsOptional()
   @IsEnum(ListingForEnum)
@@ -25,7 +46,6 @@ export class SearchPropertyQueryDto {
 
   @ApiPropertyOptional({
     description: 'City name to search properties in',
-    example: 'Mumbai',
   })
   @IsOptional()
   @IsString()
@@ -33,7 +53,6 @@ export class SearchPropertyQueryDto {
 
   @ApiPropertyOptional({
     description: 'Number of bedrooms (BHK)',
-    example: 2,
     minimum: 1,
   })
   @IsOptional()
@@ -44,7 +63,6 @@ export class SearchPropertyQueryDto {
 
   @ApiPropertyOptional({
     description: 'Minimum price range',
-    example: 1000000,
     minimum: 0,
   })
   @IsOptional()
@@ -55,7 +73,6 @@ export class SearchPropertyQueryDto {
 
   @ApiPropertyOptional({
     description: 'Maximum price range',
-    example: 5000000,
     minimum: 0,
   })
   @IsOptional()

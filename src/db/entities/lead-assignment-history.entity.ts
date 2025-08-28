@@ -35,6 +35,7 @@ export class LeadAssignmentHistoryEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.assignment_history, {
     nullable: true,
+    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'assigned_to' })
   assigned_to_user: UserEntity;

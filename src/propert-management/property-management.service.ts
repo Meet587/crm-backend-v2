@@ -5,9 +5,16 @@ import { PropertyFurnitureRepositoryInterface } from 'src/db/interfaces/property
 import { PropertyPricingRepositoryInterface } from 'src/db/interfaces/property-pricing.interface';
 import { PropertyUploadRepositoryInterface } from 'src/db/interfaces/property-upload.interface';
 import { PropertyRepositoryInterface } from '../db/interfaces/property.interface';
-import { CreateFurnitureDto, CreatePropertyDto } from './dtos/create-property.dto';
+import {
+  CreateFurnitureDto,
+  CreatePropertyDto,
+} from './dtos/create-property.dto';
 import { SearchPropertyQueryDto } from './dtos/search-property-query.dto';
-import { UpdateExtraChargesDto, UpdateFurnitureDto, UpdatePropertyDto, UpdatePropertyPricingDataDto } from './dtos/update-property.dto';
+import {
+  UpdateExtraChargesDto,
+  UpdatePropertyDto,
+  UpdatePropertyPricingDataDto,
+} from './dtos/update-property.dto';
 import { PropertyMapper } from './mapper/property.mapper';
 
 @Injectable()
@@ -108,20 +115,27 @@ export class PropertyManagementService {
     }
   }
 
-  async getAllProperties() {
+  async getAllProperties(searchPropertyQueryDto: SearchPropertyQueryDto) {
     try {
-      return await this.propertyRepository.findWithRelations({
-        relations: [
-          'assign_to',
-          'project',
-          'builder',
-          'pricing',
-          'pricing.extra_charges',
-          'furnitures',
-          'locations',
-          'amenities',
-        ],
-      });
+      const { data, total } =
+        await this.propertyRepository.findWithSearchAndPagination(
+          searchPropertyQueryDto,
+        );
+      const { page = 1, limit = 10 } = searchPropertyQueryDto;
+
+      const totalPages = Math.ceil(total / limit);
+      const hasNext = page < totalPages;
+      const hasPrev = page > 1;
+
+      return {
+        data,
+        total,
+        page,
+        limit,
+        totalPages,
+        hasNext,
+        hasPrev,
+      };
     } catch (error) {
       throw error;
     }
@@ -221,7 +235,10 @@ export class PropertyManagementService {
     }
   }
 
-  async updatePropertyPricing(id: string, pricingData: UpdatePropertyPricingDataDto) {
+  async updatePropertyPricing(
+    id: string,
+    pricingData: UpdatePropertyPricingDataDto,
+  ) {
     try {
       const existingProperty = await this.getPropertyById(id);
 
@@ -274,10 +291,7 @@ export class PropertyManagementService {
       }
 
       // Add new extra charges
-      if (
-        updateExtraChargesDto &&
-        updateExtraChargesDto.length > 0
-      ) {
+      if (updateExtraChargesDto && updateExtraChargesDto.length > 0) {
         const mappedExtraCharges =
           PropertyMapper.updateExtraChargeDtoToExtraChargeEntity(
             updateExtraChargesDto,
@@ -308,10 +322,7 @@ export class PropertyManagementService {
       }
 
       // Add new furniture
-      if (
-        updateFurnituresDto &&
-        updateFurnituresDto.length > 0
-      ) {
+      if (updateFurnituresDto && updateFurnituresDto.length > 0) {
         const mappedFurnitures =
           PropertyMapper.createFurnitureDtoToFurnitureEntity(
             updateFurnituresDto,

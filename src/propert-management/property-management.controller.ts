@@ -62,23 +62,9 @@ export class PropertyManagementController {
     description: 'Properties retrieved successfully with all relations',
   })
   async getAllProperties(
-    @Query() searchPropertyQueryDto: SearchPropertyQueryDto,
+    @Query() searchPropertyQueryDto?: SearchPropertyQueryDto,
   ) {
-    const hasFilters =
-      searchPropertyQueryDto.propertyType ||
-      searchPropertyQueryDto.listingFor ||
-      searchPropertyQueryDto.city ||
-      searchPropertyQueryDto.bhk ||
-      searchPropertyQueryDto.minPrice ||
-      searchPropertyQueryDto.maxPrice;
-
-    if (hasFilters) {
-      return await this.propertyManagementService.getPropertiesByFilters(
-        searchPropertyQueryDto,
-      );
-    }
-
-    return await this.propertyManagementService.getAllProperties();
+    return await this.propertyManagementService.getAllProperties(searchPropertyQueryDto);
   }
 
   @Get(':id')

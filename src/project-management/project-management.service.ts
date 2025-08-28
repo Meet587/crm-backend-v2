@@ -58,32 +58,7 @@ export class ProjectManagementService {
     searchQuery?: SearchProjectQueryDto,
   ): Promise<PaginatedResponseDto<ProjectEntity> | ProjectEntity[]> {
     try {
-      // If no search query provided, return all projects (backward compatibility)
-      if (!searchQuery) {
-        return await this.projectRepository.findAll({
-          relations: {
-            builder: true,
-            cities: true,
-          },
-          select: {
-            id: true,
-            name: true,
-            property_types: true,
-            builder: {
-              name: true,
-              id: true,
-            },
-            cities: {
-              id: true,
-              name: true,
-            },
-            possession_month: true,
-            possession_year: true,
-          },
-        });
-      }
 
-      // Use search and pagination
       const { data, total } =
         await this.projectRepository.findWithSearchAndPagination(searchQuery);
       const { page = 1, limit = 10 } = searchQuery;

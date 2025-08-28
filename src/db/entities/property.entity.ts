@@ -210,13 +210,13 @@ export class PropertyEntity {
   @JoinColumn({ name: 'created_by' })
   created_by?: UserEntity;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn()
   updated_at: Date;
 
-  @DeleteDateColumn({ type: 'timestamptz', nullable: true })
+  @DeleteDateColumn({ nullable: true })
   deleted_at?: Date;
 
   @OneToOne(() => PropertyPricingEntity, (pricing) => pricing.property)
@@ -233,6 +233,7 @@ export class PropertyEntity {
 
   @ManyToMany(() => CityEntity, (location) => location.properties, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable({
     name: 'property_locations',
@@ -243,6 +244,7 @@ export class PropertyEntity {
 
   @ManyToMany(() => AmenitiesEntity, (amenity) => amenity.properties, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable({
     name: 'property_amenities',

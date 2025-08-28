@@ -45,6 +45,21 @@ export class UserService {
     }
   }
 
+  async findByEmailWithPassword(email: string): Promise<UserEntity | null> {
+    return await this.userRepository.findByCondition({
+      where: { email },
+      select: [
+        'id',
+        'email',
+        'password_hash',
+        'first_name',
+        'last_name',
+        'role',
+        'is_active',
+      ],
+    });
+  }
+
   async findByEmail(email: string): Promise<UserEntity> {
     try {
       const user = await this.userRepository.findByEmail(email);

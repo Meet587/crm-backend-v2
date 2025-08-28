@@ -28,6 +28,6 @@ export class PropertyFurnitureDetailsEntity {
   @Column({ nullable: true, type: 'text' })
   description?: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn()
   created_at: Date;
 }

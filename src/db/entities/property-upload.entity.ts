@@ -36,6 +36,6 @@ export class PropertyUploadEntity {
   @JoinColumn({ name: 'uploaded_by' })
   uploaded_by?: UserEntity;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn()
   uploaded_at: Date;
 }
