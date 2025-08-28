@@ -1,79 +1,197 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# CRM Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A comprehensive **Customer Relationship Management (CRM) Backend** built with NestJS for property management and real estate operations. This application provides a robust API for managing leads, properties, deals, commissions, and user interactions in the real estate industry.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- **Lead Management**: Track and nurture potential customers and prospects
+- **User Management**: Handle user accounts with JWT authentication and role-based access
+- **Property Management**: Manage real estate properties and related data
+- **Project Management**: Oversee development projects and timelines
+- **Commission Tracking**: Calculate and track sales commissions
+- **Deal Management**: Handle property transactions and deals
+- **Builder Management**: Manage construction companies and contractors
+- **City/Location Management**: Handle geographic data and locations
+- **API Documentation**: Comprehensive Swagger/OpenAPI documentation
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Technology Stack
 
-## Project setup
+- **Framework**: NestJS with TypeScript
+- **Database**: PostgreSQL with TypeORM
+- **Authentication**: JWT with Passport
+- **Validation**: class-validator and class-transformer
+- **Documentation**: Swagger/OpenAPI
+- **Testing**: Jest for unit and e2e tests
+- **Security**: bcrypt for password hashing, rate limiting with throttler
 
-```bash
-$ npm install
-```
+## Prerequisites
 
-## Compile and run the project
+- Node.js (v18 or higher)
+- PostgreSQL database
+- npm or yarn package manager
 
-```bash
-# development
-$ npm run start
+## Installation
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+1. Clone the repository:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone <repository-url>
+cd crm-backend
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+2. Install dependencies:
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+3. Set up environment variables:
 
-## new flow
+```bash
+cp .env.example .env
+```
 
-### workflow disscussion
-[eraser](https://app.eraser.io/workspace/7t1LqV3rKzqusr7KEeMU)
+Edit the `.env` file with your database credentials and other configuration.
 
-### db diagram
-[dbdiagram](https://dbdiagram.io/d/property-crm-6868b05df413ba350863763a)
+4. Run database migrations:
+
+```bash
+npm run migration:run
+```
+
+5. (Optional) Seed the database with sample data:
+
+```bash
+npm run seed
+```
+
+## Development
+
+### Running the Application
+
+```bash
+# Development mode with hot reload
+npm run start:local
+
+# Debug mode
+npm run start:debug
+
+# Production mode
+npm run start:prod
+```
+
+### Database Operations
+
+```bash
+# Generate new migration
+npm run migration:generate
+
+# Run pending migrations
+npm run migration:run
+
+# Revert last migration
+npm run migration:revert
+
+# Run database seeds
+npm run seed
+```
+
+### Testing
+
+```bash
+# Unit tests
+npm run test
+
+# Unit tests in watch mode
+npm run test:watch
+
+# E2E tests
+npm run test:e2e
+
+# Test coverage
+npm run test:cov
+```
+
+### Code Quality
+
+```bash
+# Lint and fix code
+npm run lint
+
+# Format code with Prettier
+npm run format
+```
+
+## Project Structure
+
+```
+src/
+├── auth/                   # Authentication & authorization
+├── users/                  # User management
+├── leads/                  # Lead management
+├── deal/                   # Deal/transaction management
+├── commission/             # Commission calculations
+├── builder/                # Builder/contractor management
+├── city/                   # Location/city management
+├── project-management/     # Project oversight
+├── propert-management/     # Property management
+├── config/                 # Environment configuration
+├── db/                     # Database layer (entities, migrations, repositories)
+├── decorators/             # Custom decorators
+├── helpers/                # Utility functions
+├── seeds/                  # Database seeders
+├── app.module.ts           # Root module
+└── main.ts                 # Application bootstrap
+```
+
+## API Documentation
+
+Once the application is running, you can access the Swagger API documentation at:
+
+```
+http://localhost:3000/api-docs
+```
+
+The API provides comprehensive documentation for all endpoints, including request/response schemas and authentication requirements.
+
+## Environment Configuration
+
+The application supports multiple environments:
+
+- **LOCAL**: Development environment
+- **DEVELOPMENT**: Staging environment
+- **PRODUCTION**: Production environment
+
+Configuration files are located in `src/config/sets/` and are automatically loaded based on the `NODE_ENV` variable.
+
+## Authentication
+
+The API uses JWT (JSON Web Tokens) for authentication. Include the token in the Authorization header:
+
+```
+Authorization: Bearer <your-jwt-token>
+```
+
+## Database Schema
+
+For detailed database schema and relationships, refer to the [database diagram](https://dbdiagram.io/d/property-crm-6868b05df413ba350863763a).
+
+## Workflow Documentation
+
+For system workflow and business process documentation, see the [workflow discussion](https://app.eraser.io/workspace/7t1LqV3rKzqusr7KEeMU).
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the UNLICENSED license.
+
+## Author
+
+Meet Rakholiya

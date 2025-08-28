@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +11,7 @@ import { DealEntity } from './deal.entity';
 import { LeadActivityEntity } from './lead-activity.entity';
 import { LeadAssignmentHistoryEntity } from './lead-assignment-history.entity';
 import { LeadEntity } from './lead.entity';
+import { PropertyEntity } from './property.entity';
 
 export enum UserRoleEnum {
   ADMIN = 'admin',
@@ -26,7 +28,8 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   email: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: false, select: false })
+  @Exclude()
   password_hash: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
@@ -73,4 +76,7 @@ export class UserEntity {
     (assignment) => assignment.assigned_to_user,
   )
   assignment_history: LeadAssignmentHistoryEntity[];
+
+  @OneToMany(() => PropertyEntity, (property) => property.assign_to)
+  assigned_properties: PropertyEntity[];
 }

@@ -2,8 +2,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { BuilderService } from '../builder/builder.service';
 import { ProjectEntity } from '../db/entities/project.entity';
 import { ProjectRepositoryInterface } from '../db/interfaces/project.interface';
+import { PaginatedResponseDto } from '../helpers/pagination.dto';
 import { AmenitiesRepositoryInterface } from './../db/interfaces/amenities.interface';
 import { CreateProjectDto } from './dtos/create-project.dto';
+import { SearchProjectQueryDto } from './dtos/search-query';
 import { UpdateProjectDto } from './dtos/update-project.dto';
 
 @Injectable()
@@ -20,9 +22,7 @@ export class ProjectManagementService {
     createProjectDto: CreateProjectDto,
   ): Promise<ProjectEntity> {
     try {
-      const builder = await this.builderService.getBuilderById(
-        createProjectDto.builder_id,
-      );
+      await this.builderService.getBuilderById(createProjectDto.builder_id);
       return await this.projectRepository.save(createProjectDto);
     } catch (error) {
       throw error;
@@ -42,6 +42,7 @@ export class ProjectManagementService {
           residential_units: fetchUnits,
           commercial_units: fetchUnits,
           land_plots: fetchUnits,
+          builder: true,
         },
       });
       if (!project) {
@@ -53,9 +54,28 @@ export class ProjectManagementService {
     }
   }
 
-  async getAllProjects(): Promise<ProjectEntity[]> {
+  async getAllProjects(
+    searchQuery?: SearchProjectQueryDto,
+  ): Promise<PaginatedResponseDto<ProjectEntity> | ProjectEntity[]> {
     try {
-      return await this.projectRepository.findAll();
+
+      const { data, total } =
+        await this.projectRepository.findWithSearchAndPagination(searchQuery);
+      const { page = 1, limit = 10 } = searchQuery;
+
+      const totalPages = Math.ceil(total / limit);
+      const hasNext = page < totalPages;
+      const hasPrev = page > 1;
+
+      return {
+        data,
+        total,
+        page,
+        limit,
+        totalPages,
+        hasNext,
+        hasPrev,
+      };
     } catch (error) {
       throw error;
     }

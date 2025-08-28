@@ -32,6 +32,18 @@ export const seedLeads = async (dataSource: DataSource) => {
     lead.status = faker.helpers.arrayElement(Object.values(LeadStatusEnum));
     lead.assigned_to = faker.helpers.arrayElement(userIds);
     lead.source_id = faker.helpers.arrayElement(sourceIds);
+
+    // Set relationships
+    if (properties.length > 0) {
+      lead.interested_property = faker.helpers.arrayElement(properties);
+    }
+    if (users.length > 0) {
+      lead.assigned_to_user = faker.helpers.arrayElement(users);
+    }
+    if (leadSources.length > 0) {
+      lead.source = faker.helpers.arrayElement(leadSources);
+    }
+
     return lead;
   });
 

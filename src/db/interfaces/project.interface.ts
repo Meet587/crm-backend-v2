@@ -1,13 +1,16 @@
-import { ProjectEntity } from '../entities/project.entity';
-import { ResidentialUnitEntity } from '../entities/residential-unit.entity';
+import { SearchProjectQueryDto } from '../../project-management/dtos/search-query';
 import { CommercialUnitEntity } from '../entities/commercial-unit.entity';
 import { LandPlotEntity } from '../entities/land-plot.entity';
+import { ProjectEntity } from '../entities/project.entity';
+import { ResidentialUnitEntity } from '../entities/residential-unit.entity';
 import { UnitFloorPlanEntity } from '../entities/unit-floor-plan.entity';
 import { BaseInterfaceRepository } from '../repositories/base/base.interface.repository';
 
 export interface ProjectRepositoryInterface
   extends BaseInterfaceRepository<ProjectEntity> {
-  // Additional project-specific methods can be added here
+  findWithSearchAndPagination(
+    searchQuery: SearchProjectQueryDto,
+  ): Promise<{ data: ProjectEntity[]; total: number }>;
 }
 
 export interface ResidentialUnitRepositoryInterface

@@ -11,11 +11,11 @@ import {
 } from 'typeorm';
 import { DealEntity } from './deal.entity';
 import { LeadActivityEntity } from './lead-activity.entity';
+import { LeadAssignmentHistoryEntity } from './lead-assignment-history.entity';
 import { LeadSourceEntity } from './lead-source.entity';
+import { LeadStatusHistoryEntity } from './lead-status-history.entity';
 import { PropertyEntity } from './property.entity';
 import { UserEntity } from './user.entity';
-import { LeadAssignmentHistoryEntity } from './lead-assignment-history.entity';
-import { LeadStatusHistoryEntity } from './lead-status-history.entity';
 
 export enum LeadStatusEnum {
   NEW = 'new',
@@ -79,13 +79,14 @@ export class LeadEntity {
 
   // Relationships
   @ManyToOne(() => LeadSourceEntity, (source) => source.leads, {
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'source_id' })
   source: LeadSourceEntity;
 
   @ManyToOne(() => PropertyEntity, (property) => property.leads, {
     nullable: true,
+    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'interested_property_id' })
   interested_property: PropertyEntity;

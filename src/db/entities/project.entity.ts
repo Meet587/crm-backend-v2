@@ -15,7 +15,11 @@ import { BuilderEntity } from './builder.entity';
 import { CityEntity } from './city.entity';
 import { CommercialUnitEntity } from './commercial-unit.entity';
 import { LandPlotEntity } from './land-plot.entity';
-import { ConstructionType, PropertySubtypeEnum, PropertyTypeEnum } from './project.enums';
+import {
+  ConstructionType,
+  PropertySubtypeEnum,
+  PropertyTypeEnum,
+} from './project.enums';
 import { PropertyEntity } from './property.entity';
 import { ResidentialUnitEntity } from './residential-unit.entity';
 
@@ -79,10 +83,10 @@ export class ProjectEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   address_line2: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, default:'123' })
+  @Column({ type: 'varchar', length: 50, nullable: false, default: '123' })
   rera_number: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false , default:'ac345'})
+  @Column({ type: 'varchar', length: 50, nullable: false, default: 'ac345' })
   gst_number: string;
 
   @CreateDateColumn()

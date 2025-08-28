@@ -25,6 +25,18 @@ export const seedDeals = async (dataSource: DataSource) => {
     deal.lead_id = faker.helpers.arrayElement(leadIds);
     deal.property_id = faker.helpers.arrayElement(propertyIds);
     deal.rm_id = faker.helpers.arrayElement(userIds);
+
+    // Set relationships
+    if (leads.length > 0) {
+      deal.lead = faker.helpers.arrayElement(leads);
+    }
+    if (properties.length > 0) {
+      deal.property = faker.helpers.arrayElement(properties);
+    }
+    if (users.length > 0) {
+      deal.rm = faker.helpers.arrayElement(users);
+    }
+
     deal.client_name = faker.person.fullName();
     deal.client_phone = faker.phone.number({ style: 'national' });
     deal.client_email = faker.internet.email();

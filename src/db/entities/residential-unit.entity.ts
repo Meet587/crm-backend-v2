@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { ProjectEntity } from './project.entity';
 import {
-  AreaUnit,
+  AreaUnitEnum,
   PropertySubtypeEnum,
   PropertyUnitTypeEnum,
 } from './project.enums';
@@ -63,10 +63,10 @@ export class ResidentialUnitEntity {
 
   @Column({
     type: 'enum',
-    enum: AreaUnit,
-    default: AreaUnit.SQFT,
+    enum: AreaUnitEnum,
+    default: AreaUnitEnum.SQFT,
   })
-  inserted_area_unit: AreaUnit;
+  inserted_area_unit: AreaUnitEnum;
 
   // Relationships
   @ManyToOne(() => ProjectEntity, (project) => project.residential_units, {

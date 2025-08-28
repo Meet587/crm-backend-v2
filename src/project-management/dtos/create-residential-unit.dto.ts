@@ -10,7 +10,7 @@ import {
   Min,
 } from 'class-validator';
 import {
-  AreaUnit,
+  AreaUnitEnum,
   PropertySubtypeEnum,
   PropertyUnitTypeEnum,
 } from '../../db/entities/project.enums';
@@ -125,10 +125,10 @@ export class CreateResidentialUnitDto {
 
   @ApiProperty({
     description: 'The area unit used for the residential unit',
-    enum: AreaUnit,
-    default: AreaUnit.SQFT,
+    enum: AreaUnitEnum,
+    default: AreaUnitEnum.SQFT,
   })
-  @IsEnum(AreaUnit)
+  @IsEnum(AreaUnitEnum)
   @IsOptional()
-  inserted_area_unit?: AreaUnit;
+  inserted_area_unit?: AreaUnitEnum;
 }

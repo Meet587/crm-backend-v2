@@ -27,7 +27,7 @@ export const seedLeadAssignmentHistory = async (dataSource: DataSource) => {
   for (const lead of leads) {
     // Each lead has 1-3 assignment history entries
     const historyCount = faker.number.int({ min: 1, max: 3 });
-    let previousAssignments = new Set<string>();
+    const previousAssignments = new Set<string>();
 
     for (let i = 0; i < historyCount; i++) {
       // Get a user that hasn't been assigned to this lead yet

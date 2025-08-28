@@ -3,12 +3,13 @@ import { AmenitiesEntity } from '../db/entities/amenities.entity';
 
 export const seedAmenities = async (dataSource: DataSource) => {
   const amenitiesRepo = dataSource.getRepository(AmenitiesEntity);
-  
+
   // Common amenities for real estate projects
   const commonAmenities = [
     'Swimming Pool',
-    'Gym', 'Clubhouse',
-    'Children\'s Play Area',
+    'Gym',
+    'Clubhouse',
+    "Children's Play Area",
     'Jogging Track',
     'Landscaped Gardens',
     'Power Backup',
@@ -25,10 +26,10 @@ export const seedAmenities = async (dataSource: DataSource) => {
     '24/7 Water Supply',
     'Vaastu Compliant',
     'Bank/ATM',
-    'Cafeteria'
+    'Cafeteria',
   ];
 
-  const amenities = commonAmenities.map(name => {
+  const amenities = commonAmenities.map((name) => {
     const amenity = new AmenitiesEntity();
     amenity.name = name;
     return amenity;

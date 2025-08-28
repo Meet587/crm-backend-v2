@@ -25,10 +25,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth();
 
-  if (nodeEnv !== Env.LOCAL) {
-    config.addServer('/api');
-    app.setGlobalPrefix('api');
-  }
+  // if (nodeEnv !== Env.LOCAL) {
+  //   config.addServer('/api');
+  //   app.setGlobalPrefix('api');
+  // }
 
   const documentFactory = () =>
     SwaggerModule.createDocument(app, config.build());

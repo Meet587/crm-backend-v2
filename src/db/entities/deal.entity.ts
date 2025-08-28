@@ -88,7 +88,7 @@ export class DealEntity {
   property: PropertyEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.deals, {
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'rm_id' })
   rm: UserEntity;
