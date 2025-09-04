@@ -35,7 +35,7 @@ export class CreateFurnitureDto {
     example: 'Sofa Set',
   })
   @IsString()
-  itemName: string;
+  item_name: string;
 
   @ApiPropertyOptional({
     description: 'Quantity of the item',

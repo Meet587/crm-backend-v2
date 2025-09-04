@@ -46,7 +46,7 @@ export class UserService {
   }
 
   async findByEmailWithPassword(email: string): Promise<UserEntity | null> {
-    return await this.userRepository.findByCondition({
+    const user = await this.userRepository.findByCondition({
       where: { email },
       select: [
         'id',
@@ -58,6 +58,12 @@ export class UserService {
         'is_active',
       ],
     });
+
+    if (!user) {
+      throw new NotFoundException('user not found with this email id.');
+    }
+
+    return user;
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
