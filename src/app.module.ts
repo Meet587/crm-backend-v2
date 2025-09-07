@@ -17,6 +17,7 @@ import { LeadsModule } from './leads/leads.module';
 import { ProjectManagementModule } from './project-management/project-management.module';
 import { PropertyManagementModule } from './propert-management/property-management.module';
 import { UsersModule } from './users/users.module';
+import { AmenitiesModule } from './amenities/amenities.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { UsersModule } from './users/users.module';
     ProjectManagementModule,
     PropertyManagementModule,
     DealModule,
+    AmenitiesModule,
   ],
   controllers: [AppController],
   providers: [

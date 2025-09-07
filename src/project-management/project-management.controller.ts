@@ -59,9 +59,4 @@ export class ProjectManagementController {
       updateProjectDto,
     );
   }
-
-  @Get('amenities/list')
-  async getAllAmenities() {
-    return await this.projectManagementService.getAllAmenities();
-  }
 }
