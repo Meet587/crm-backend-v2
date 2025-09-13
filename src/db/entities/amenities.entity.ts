@@ -13,6 +13,8 @@ export class AmenitiesEntity {
   @ManyToMany(() => ProjectEntity, (project) => project.amenities)
   projects: ProjectEntity[];
 
-  @ManyToMany(() => PropertyEntity, (property) => property.amenities)
+  @ManyToMany(() => PropertyEntity, (property) => property.amenities, {
+    onDelete: 'CASCADE',
+  })
   properties: PropertyEntity[];
 }
