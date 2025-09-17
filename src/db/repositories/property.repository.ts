@@ -27,6 +27,7 @@ export class PropertyRepository
       maxPrice,
       furnishing,
       propertySubType,
+      title,
     } = searchQuery;
     const queryBuilder = this.propertyRepository.createQueryBuilder('property');
     queryBuilder.leftJoinAndSelect('property.pricing', 'pricing');
@@ -53,7 +54,13 @@ export class PropertyRepository
       'location.id',
       'location.name',
     ]);
-    queryBuilder.where('property.deleted_at IS NULL');
+    queryBuilder.andWhere('property.deleted_at IS NULL');
+
+    if (title) {
+      queryBuilder.andWhere('property.title = :title', {
+        title,
+      });
+    }
     if (propertyType) {
       queryBuilder.andWhere('property.property_type = :propertyType', {
         propertyType,

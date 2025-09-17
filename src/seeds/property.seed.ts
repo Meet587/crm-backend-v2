@@ -34,7 +34,18 @@ export const seedProperties = async (dataSource: DataSource) => {
   const amenities = await amenitiesRepo.find();
 
   const propertyTypes = Object.values(PropertyTypeEnum);
-  const propertySubtypes = Object.values(PropertySubtypeEnum);
+  const commercialSubtypes = [
+    PropertySubtypeEnum.SHOP_SHOWROOM,
+    PropertySubtypeEnum.OFFICE_SPACE,
+    PropertySubtypeEnum.INDUSTRIAL_SHED,
+    PropertySubtypeEnum.WAREHOUSE,
+  ];
+  const residentialSubtypes = [
+    PropertySubtypeEnum.APARTMENT_FLAT,
+    PropertySubtypeEnum.BUNGALOW_VILLA,
+    PropertySubtypeEnum.ROW_HOUSE,
+  ];
+  const landSubtypes = [PropertySubtypeEnum.LAND_PLOT];
   const listingForValues = Object.values(ListingForEnum);
   const readyStatusValues = Object.values(ReadyStatusEnum);
   const furnishingValues = Object.values(FurnishingEnum);
@@ -50,7 +61,13 @@ export const seedProperties = async (dataSource: DataSource) => {
     property.title = faker.lorem.words(3);
     property.listing_for = faker.helpers.arrayElement(listingForValues);
     property.property_type = faker.helpers.arrayElement(propertyTypes);
-    property.property_sub_type = faker.helpers.arrayElement(propertySubtypes);
+    if (property.property_type === PropertyTypeEnum.RESIDENTIAL) {
+      property.property_sub_type = faker.helpers.arrayElement(residentialSubtypes);
+    } else if (property.property_type === PropertyTypeEnum.COMMERCIAL) {
+      property.property_sub_type = faker.helpers.arrayElement(commercialSubtypes);
+    } else if (property.property_type === PropertyTypeEnum.LAND) {
+      property.property_sub_type = faker.helpers.arrayElement(landSubtypes);
+    }
 
     // Relationships
     if (projects.length > 0) {
