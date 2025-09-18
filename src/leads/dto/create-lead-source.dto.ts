@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { LeadSourceTypeEnum } from '../../db/entities/lead-source.entity';
 
@@ -18,3 +18,5 @@ export class CreateLeadSourceDto {
   @IsString()
   description?: string;
 }
+
+export class UpdateLeadSourceDto extends PartialType(CreateLeadSourceDto) {}

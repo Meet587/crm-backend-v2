@@ -3,7 +3,6 @@ import { BuilderService } from '../builder/builder.service';
 import { ProjectEntity } from '../db/entities/project.entity';
 import { ProjectRepositoryInterface } from '../db/interfaces/project.interface';
 import { PaginatedResponseDto } from '../helpers/pagination.dto';
-import { AmenitiesRepositoryInterface } from './../db/interfaces/amenities.interface';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { SearchProjectQueryDto } from './dtos/search-query';
 import { UpdateProjectDto } from './dtos/update-project.dto';
@@ -13,8 +12,6 @@ export class ProjectManagementService {
   constructor(
     @Inject('projectRepositoryInterface')
     private readonly projectRepository: ProjectRepositoryInterface,
-    @Inject('amenitiesRepositoryInterface')
-    private readonly amenitiesRepository: AmenitiesRepositoryInterface,
     private readonly builderService: BuilderService,
   ) {}
 
@@ -58,7 +55,6 @@ export class ProjectManagementService {
     searchQuery?: SearchProjectQueryDto,
   ): Promise<PaginatedResponseDto<ProjectEntity> | ProjectEntity[]> {
     try {
-
       const { data, total } =
         await this.projectRepository.findWithSearchAndPagination(searchQuery);
       const { page = 1, limit = 10 } = searchQuery;
@@ -96,14 +92,6 @@ export class ProjectManagementService {
         id: project.id,
       };
       return await this.projectRepository.save(updatedProject);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async getAllAmenities() {
-    try {
-      return await this.amenitiesRepository.findAll();
     } catch (error) {
       throw error;
     }

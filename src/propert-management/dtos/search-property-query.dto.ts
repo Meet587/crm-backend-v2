@@ -21,6 +21,14 @@ export class SearchPropertyQueryDto extends PaginationDto {
   propertyType?: PropertyTypeEnum;
 
   @ApiPropertyOptional({
+    description: 'Property title',
+    example: '3BHK Luxury Apartment in Downtown',
+  })
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @ApiPropertyOptional({
     description: 'Property subtype',
     enum: PropertySubtypeEnum,
   })

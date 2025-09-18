@@ -110,7 +110,7 @@ export class PropertyMapper {
   ) {
     const mappedFurnitures = furnitureData.map((furniture) => ({
       property: { id: savedPropertyId },
-      item_name: furniture.itemName,
+      item_name: furniture.item_name,
       quantity: furniture.quantity || 1,
       description: furniture.description,
     }));
